@@ -1,0 +1,103 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MultiUserAddressBook.master.cs"
+    Inherits="Assets_TatvaSoft" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Multi-User Addressbook | Darshan University</title>
+    <link rel="stylesheet" href="~/Content/CSS/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/StyleSheet.css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <asp:ContentPlaceHolder ID="cphHead" runat="server">
+        <title>Multi-User Addressbook | Darshan University</title>
+    </asp:ContentPlaceHolder>
+
+
+</head>
+<body>
+
+
+    <form id="form1" runat="server">
+        <section id="topPanel" class="d-flex justify-content-between align-items-center py-2 px-4"
+            style="/*background-color: #1565C0*/ border-bottom:1px solid;">
+            <div class=" ">
+                <h1>
+                    <asp:Image ID="imgDUlogo" runat="server" ImageUrl="~/Content/Images/DU-logo.svg" style="border-right:1px solid #dc3545;padding-right:6px"/>
+                     <span class="text-danger "> AddressBook</span></h1>
+
+            </div>
+            <div class="float-right d-flex justify-content-between align-items-center">
+
+
+                <div class="dropdown">
+                    <div class="card d-flex flex-row bg-danger text-light p-2 shadowCard">
+                        <asp:Label runat="server" ID="lblDisplayName" Text="Hello User"></asp:Label> &nbsp;
+                        <span class="material-icons">account_circle
+                        </span>
+                    </div>
+
+                    <div class="dropdown-content" aria-labelledby="navbarDropdown">
+                        <asp:HyperLink ID="hlProfile" runat="server" CssClass="dropdown-item"
+                            Text="Profile" NavigateUrl="~/AdminPanel/User/UserView.aspx"></asp:HyperLink>
+                        <asp:HyperLink ID="hlEditInfo" runat="server" CssClass="dropdown-item"
+                            Text="Edit Profile" NavigateUrl="~/AdminPanel/User/UserEditPage.aspx"></asp:HyperLink>
+                        <div class="dropdown-divider"></div>
+                        <asp:LinkButton ID="hlLogout" runat="server" CssClass="dropdown-item"
+                            Text="Logout"  OnClick="btnLogout_Click" ></asp:LinkButton>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+        <section class="mb-3 shadowCard">
+
+            <div class="container py-2 px-4">
+                <nav class="justify-content-center">
+                    <ul class="d-flex justify-content-around list-unstyled m-0">
+                        <li>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/Contact/ContactList.aspx">Contact</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/ContactCategory/ContactCategoryList.aspx">Contact Category</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/City/CityList.aspx">City</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/State/StateList.aspx">State</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/Country/CountryList.aspx">Country</asp:HyperLink>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+
+        <section id="mainPlace" class="container mt-5">
+            <asp:ContentPlaceHolder ID="cphMainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </section>
+        <section id="footer" class="d-flex flex-column justify-content-center align-items-center my-5">
+            <div>
+                <small>Created by </small> <strong>190540107116 | Kushvaha Suraj</strong>
+                <a href="mailto:190540107116@darshan.ac.in" class="text-decoration-none text-danger font-weight-bold">
+                    <div class="d-flex flex-row  justify-content-center">
+                   <span class="material-icons">
+email
+</span> 190540107116@darshan.ac.in
+                        </div></a>
+            </div>
+            <div>&copy; 2022 Darshan University All right reserved</div>
+
+        </section>
+    </form>
+</body>
+</html>
