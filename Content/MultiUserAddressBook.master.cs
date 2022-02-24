@@ -11,7 +11,8 @@ public partial class Assets_TatvaSoft : System.Web.UI.MasterPage
     {
         if (Session["UserID"] == null)
         {
-            Response.Redirect("~/AdminPanel/Default.aspx", true);
+            //Response.Redirect("~/AdminPanel/Default.aspx", true);
+            Response.Redirect("~/AdminPanel/Login");
         }
         if (!Page.IsPostBack)
         {
@@ -26,7 +27,8 @@ public partial class Assets_TatvaSoft : System.Web.UI.MasterPage
         if (Page.IsPostBack || !Page.IsPostBack)
         {
             Session.Clear();
-            Response.Redirect("~/AdminPanel/Default.aspx", true);
+            //Response.Redirect("~/AdminPanel/Default.aspx", true);
+            Response.Redirect("~/AdminPanel/Login");
         }
             
 

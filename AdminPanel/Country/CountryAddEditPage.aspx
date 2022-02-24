@@ -8,7 +8,7 @@
         <div class="mb-3">
 
             <h2 class="text-dark ">
-                <asp:HyperLink ID="hlBackBtn" runat="server"  NavigateUrl="~/AdminPanel/Country/CountryList.aspx"
+                <asp:HyperLink ID="hlBackBtn" runat="server"  NavigateUrl="~/AdminPanel/Country/List"
                     CssClass="px-2 text-decoration-none text-danger">
 <span class="material-icons">
 arrow_back

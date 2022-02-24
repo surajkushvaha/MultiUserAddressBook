@@ -22,7 +22,7 @@ public partial class AdminPanel_User_UserEditPage : System.Web.UI.Page
             }
             else
             {
-                Response.Redirect("~/AdminPanel/Default.aspx", true);
+                Response.Redirect("~/AdminPanel/Login", true);
             }
         }
     }
@@ -117,7 +117,7 @@ public partial class AdminPanel_User_UserEditPage : System.Web.UI.Page
             objCmd.Parameters.AddWithValue("@MobileNo", strMobileNo);
             objCmd.Parameters.AddWithValue("@Address", strAddress);
             objCmd.ExecuteNonQuery();
-            Response.Redirect("~/AdminPanel/User/UserView.aspx",true);
+            Response.Redirect("~/AdminPanel/Profile",true);
 
             #endregion Connection & Command Object
 

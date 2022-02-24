@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data.SqlTypes;
+using System.IO;
 public partial class AdminPanel_Contact_ContactList : System.Web.UI.Page
 {
     #region Load Event
@@ -51,6 +52,7 @@ public partial class AdminPanel_Contact_ContactList : System.Web.UI.Page
             if (objSDR.HasRows)
             {
                 gvContact.DataSource = objSDR;
+               
                 gvContact.DataBind();
             }
             else
@@ -102,13 +104,16 @@ public partial class AdminPanel_Contact_ContactList : System.Web.UI.Page
     {
         #region Local Variable
         SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString.Trim());
+        
         #endregion Local Variable
         try
         {
             #region Connection & Command Object
+            DeleteContactWiseContactCategory(ContactID);
+            DeletePhotoRecord(ContactID);
             if (objConn.State != ConnectionState.Open)
                 objConn.Open();
-
+            
             SqlCommand objCmd = objConn.CreateCommand();
             objCmd.CommandType = CommandType.StoredProcedure;
             objCmd.CommandText = "PR_Contact_DeleteByPKUserID";
@@ -117,8 +122,9 @@ public partial class AdminPanel_Contact_ContactList : System.Web.UI.Page
             {
                 objCmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
             }
+
             objCmd.ExecuteNonQuery();
-            
+
             #endregion Connection & Command Object
 
             if (objConn.State == ConnectionState.Open)
@@ -144,4 +150,132 @@ public partial class AdminPanel_Contact_ContactList : System.Web.UI.Page
     }
     #endregion Delete Record
 
+    #region Delete File Record
+    private void DeletePhotoRecord(SqlInt32 ContactID)
+    {
+        #region Local Variable
+        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
+       
+        #endregion Local Variable
+
+        try
+        {
+            #region Set Connection & Command Object
+          if (objConn.State != ConnectionState.Open)
+                objConn.Open();
+
+            SqlCommand objCmd = objConn.CreateCommand();
+            objCmd.CommandType = CommandType.StoredProcedure;
+            objCmd.CommandText = "PR_Contact_SelectByPKUserID";
+            objCmd.Parameters.AddWithValue("@ContactID", ContactID.ToString().Trim());
+            if (Session["UserID"] != null)
+            {
+                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
+            }
+           
+            #endregion Set Connection & Command Object
+
+            #region Read the value and set the controls
+
+            SqlDataReader objSDR = objCmd.ExecuteReader();
+
+            if (objSDR.HasRows)
+            {
+                while (objSDR.Read())
+                {
+
+                    if (!objSDR["ContactPhotoPath"].Equals(DBNull.Value))
+                    {
+
+                        String AbsolutePath = ResolveUrl(objSDR["ContactPhotoPath"].ToString().Trim()); ;
+                        FileInfo file = new FileInfo(Server.MapPath(AbsolutePath));
+                        if (file.Exists)
+                        {
+                            file.Delete();
+                        }                
+                    
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                lblErrMsg.Visible = true;
+                lblMsgDiv.Visible = true;
+                lblErrMsg.Text = "Something went wrong or Wrong URL";
+            }
+            if (objConn.State == ConnectionState.Open)
+                objConn.Close();
+            if (objConn.State != ConnectionState.Open)
+                objConn.Open();
+            #endregion Read the value and set the controls
+            SqlCommand objCmdForDelete = objConn.CreateCommand();
+            objCmdForDelete.CommandType = CommandType.StoredProcedure;
+            objCmdForDelete.CommandText = "PR_ContactPhoto_DeleteByContactIdUserID";
+            objCmdForDelete.Parameters.AddWithValue("@ContactID", ContactID.ToString().Trim());
+            if (Session["UserID"] != null)
+            {
+                objCmdForDelete.Parameters.AddWithValue("@UserID", Session["UserID"]);
+            }
+            objCmdForDelete.ExecuteNonQuery();
+            if (objConn.State == ConnectionState.Open)
+                objConn.Close();
+
+        }
+        catch (Exception exc)
+        {
+            lblErrMsg.Visible = true;
+            lblMsgDiv.Visible = true;
+            lblErrMsg.Text = exc.Message;
+
+        }
+        finally
+        {
+            if (objConn.State == ConnectionState.Open)
+                objConn.Close();
+
+        }
+    }
+    #endregion Delete File Record
+
+    #region DeleteContactWiseContactCategory
+    private void DeleteContactWiseContactCategory(SqlInt32 ContactID)
+    {
+        #region Local Variable
+        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
+        #endregion Local Variable
+        try
+        {
+            #region Set Connection & Command Object
+
+            if (objConn.State != ConnectionState.Open)
+                objConn.Open();
+
+            SqlCommand objCmd = objConn.CreateCommand();
+            objCmd.CommandType = CommandType.StoredProcedure;
+            objCmd.CommandText = "PR_ContactWiseContactCategory_DeleteByContactIDUserID";
+            objCmd.Parameters.AddWithValue("@ContactID", ContactID);
+            objCmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
+            objCmd.ExecuteNonQuery();
+            if (objConn.State == ConnectionState.Open)
+                objConn.Close();
+            #endregion Set Connection & Command Object
+
+
+        }
+        catch (Exception exc)
+        {
+            lblErrMsg.Visible = true;
+            lblMsgDiv.Visible = true;
+            lblErrMsg.Text = exc.Message;
+
+        }
+        finally
+        {
+            if (objConn.State == ConnectionState.Open)
+                objConn.Close();
+
+        }
+    }
+    #endregion DeleteContactWiseContactCategory
 }

@@ -103,7 +103,7 @@
                 border-radius: 5px; padding: 10px; font-size: small; font-weight: 500">
                 <span>Already an User ?</span>
                 <asp:HyperLink ID="hlNewUser" CssClass="text-decoration-none text-danger font-weight-bold"
-                    runat="server" NavigateUrl="~/AdminPanel/Default.aspx">Login to AddressBook</asp:HyperLink>
+                    runat="server" NavigateUrl="~/AdminPanel/Login">Login to AddressBook</asp:HyperLink>
             </p>
         </section>
         <section id="footer" class="container text-center my-3">

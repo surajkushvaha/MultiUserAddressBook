@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -23,7 +24,7 @@ public partial class AdminPanel_User_UserView : System.Web.UI.Page
             }
             else
             {
-                Response.Redirect("~/AdminPanel/Default.aspx", true);
+                Response.Redirect("~/AdminPanel/Login", true);
             }
         }
     }
@@ -123,7 +124,7 @@ public partial class AdminPanel_User_UserView : System.Web.UI.Page
     }
     #endregion fill data
 
-    #region Delete :Button
+    #region Delete User
     protected void btnDelete_Click(object sender, EventArgs e)
     {
         #region local variable
@@ -146,10 +147,13 @@ public partial class AdminPanel_User_UserView : System.Web.UI.Page
                 objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
             }
             objCmd.ExecuteNonQuery();
+            
             Session.Clear();
-            Response.Redirect("~/AdminPanel/Default.aspx", true);
+
+            Response.Redirect("~/AdminPanel/Login", true);
             #endregion Connection & Command Object
 
+           
             #region read the value and set the controls
            
             if (objConn.State == ConnectionState.Open)
@@ -173,5 +177,6 @@ public partial class AdminPanel_User_UserView : System.Web.UI.Page
         }
 
     }
-    #endregion Delete : Button
+    #endregion Delete User
+  
 }

@@ -7,7 +7,7 @@
 
         <div class="d-flex justify-content-between mb-3">
             <h3 class="">Country List</h3>
-            <asp:HyperLink runat="server" ID="add" NavigateUrl="~/AdminPanel/Country/CountryAddEditPage.aspx"><span class="btn btn-success shadowCard">Add New</span></asp:HyperLink>
+            <asp:HyperLink runat="server" ID="add" NavigateUrl="~/AdminPanel/Country/Add"><span class="btn btn-success shadowCard">Add New</span></asp:HyperLink>
         </div>
 
         <div id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
@@ -26,7 +26,7 @@
 
                     <asp:TemplateField HeaderText="Edit">
                         <ItemTemplate>
-                            <asp:HyperLink runat="server" ID="btnEdit" NavigateUrl='<%# "~/AdminPanel/Country/CountryAddEditPage.aspx?CountryID="+ Eval("CountryID").ToString().Trim() %>'
+                            <asp:HyperLink runat="server" ID="btnEdit" NavigateUrl='<%# "~/AdminPanel/Country/Edit/"+ CommonDropDownFillMethods.Base64Encode( Eval("CountryID").ToString().Trim()) %>'
                                 Text="Edit" CssClass="btn btn-info btn-sm shadowCard"></asp:HyperLink>
                         </ItemTemplate>
                     </asp:TemplateField>

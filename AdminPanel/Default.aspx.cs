@@ -19,7 +19,7 @@ public partial class AdminPanel_Default : System.Web.UI.Page
         {
             if (Session["UserID"] != null)
             {
-                Response.Redirect("~/AdminPanel/Contact/ContactList.aspx", true);
+                Response.Redirect("~/AdminPanel/Home", true);
             }
         }
     }
@@ -94,7 +94,7 @@ public partial class AdminPanel_Default : System.Web.UI.Page
                         Session["DisplayName"] = objSDR["DisplayName"].ToString().Trim();
                     }
                 }
-                Response.Redirect("~/AdminPanel/Contact/ContactList.aspx", true);
+                Response.Redirect("~/AdminPanel/Home", true);
             }
             else
             {

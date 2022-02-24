@@ -85,7 +85,7 @@
             <asp:Button ID="btnSave" runat="server" CssClass="form-control btn btn-success text-light shadowCard mx-1"
                 Text="Save"  ValidationGroup="vgRegister" OnClick="btnSave_Click" />
             <asp:HyperLink ID="btnCancel" runat="server" CssClass="form-control btn btn-danger text-light shadowCard mx-1"
-                        Text="Cancel" NavigateUrl="~/AdminPanel/User/UserView.aspx" />
+                        Text="Cancel" NavigateUrl="~/AdminPanel/Profile" />
         </div>
     </div>
 </asp:Content>

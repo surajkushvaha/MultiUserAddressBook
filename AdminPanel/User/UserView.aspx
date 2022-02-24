@@ -46,7 +46,7 @@
         </div>
         <div class="d-flex flex-row my-3">
             <asp:HyperLink ID="hlEdit" runat="server" CssClass="form-control btn btn-success text-light shadowCard mx-1"
-                Text="Edit" NavigateUrl="~/AdminPanel/User/UserEditPage.aspx" />
+                Text="Edit" NavigateUrl="~/AdminPanel/Profile/Edit" />
             <asp:Button ID="btnDelete" runat="server" CssClass="form-control btn btn-danger text-light shadowCard mx-1"
                 Text="Delete Account" OnClick="btnDelete_Click" />
         </div>

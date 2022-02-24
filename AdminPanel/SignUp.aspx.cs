@@ -97,7 +97,7 @@ public partial class SignUp : System.Web.UI.Page
             }
             #endregion Read the Value & Set the Controls
 
-            Response.Redirect("~/AdminPanel/Default.aspx", true);
+            Response.Redirect("~/AdminPanel/Login", true);
         }
         catch (Exception ex)
         {
@@ -118,13 +118,11 @@ public partial class SignUp : System.Web.UI.Page
     #region Check User Name
     private bool checkUsername(SqlString strUserName)
     {
-        #region Variable
         bool flag = true;
         SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion Variable
         try
         {
-            #region Connection & Command Object
+
             if (objConn.State != ConnectionState.Open)
             {
                 objConn.Open();
@@ -150,7 +148,6 @@ public partial class SignUp : System.Web.UI.Page
             {
                 objConn.Close();
             }
-            #endregion Connection & Command Object
         }
         catch (Exception ex)
         {

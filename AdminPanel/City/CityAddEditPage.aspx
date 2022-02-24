@@ -7,7 +7,7 @@
         <div class="mb-3">
 
             <h2 class="text-info">
-                <asp:HyperLink ID="hlBackBtn" runat="server" NavigateUrl="~/AdminPanel/City/CityList.aspx"
+                <asp:HyperLink ID="hlBackBtn" runat="server" NavigateUrl="~/AdminPanel/City/List"
                     CssClass="px-2  text-decoration-none text-danger">
 <span class="material-icons">
 arrow_back
@@ -17,21 +17,21 @@ arrow_back
 
             </h2>
         </div>
-        <div id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-info ">
+        <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-info ">
             <asp:Label ID="lblCityMsg" runat="server" 
              EnableViewState="False" Visible="False"></asp:Label>
             <asp:Label ID="lblErrMsg" runat="server"
                 EnableViewState="False" Visible="False"></asp:Label>
-        </div>
+        </asp:Panel>
         
          <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
                 <asp:Label ID="lblStateName" runat="server" Text="State Name" CssClass="text-dark"></asp:Label>
             </div>
             <div class="col-md-4">
-                <asp:DropDownList ID="ddlState" runat="server" CssClass="form-control"></asp:DropDownList>
-                <asp:RequiredFieldValidator ID="rfvDdlState" runat="server" 
-                    ControlToValidate="ddlState" ErrorMessage="Please Select a State" 
+                <asp:DropDownList ID="ddlStateID" runat="server" CssClass="form-control"></asp:DropDownList>
+                <asp:RequiredFieldValidator ID="rfvDdlStateID" runat="server" 
+                    ControlToValidate="ddlStateID" ErrorMessage="Please Select a State" 
                     Font-Italic="True" ForeColor="#FF5E5E" InitialValue="-1" 
                     ValidationGroup="vgCity"></asp:RequiredFieldValidator>
             </div>

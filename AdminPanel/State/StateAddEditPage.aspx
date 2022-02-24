@@ -7,23 +7,22 @@
         <div class="mb-3">
 
             <h2 class="text-dark">
-                <asp:HyperLink ID="hlBackBtn" runat="server" NavigateUrl="~/AdminPanel/State/StateList.aspx" CssClass="px-2 text-decoration-none text-danger">
+                <asp:HyperLink ID="hlBackBtn" runat="server" NavigateUrl="~/AdminPanel/State/List" CssClass="px-2 text-decoration-none text-danger">
 <span class="material-icons">
 arrow_back
 </span> 
                 </asp:HyperLink>
                 <asp:Label runat="server" ID="lblMode"></asp:Label>
-
             </h2>
         </div>
 
 
-        <div id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-info ">
+        <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-info ">
             <asp:Label ID="lblStateMsg" runat="server"
                 EnableViewState="False" Visible="False"></asp:Label>
             <asp:Label ID="lblErrMsg" runat="server"
                 EnableViewState="False" Visible="False"></asp:Label>
-        </div>
+        </asp:Panel>
 
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
@@ -31,10 +30,10 @@ arrow_back
                 
             </div>
             <div class="col-md-4">
-                <asp:DropDownList ID="ddlCountry" runat="server" CssClass="form-control"></asp:DropDownList>
-                <asp:RequiredFieldValidator ID="rfvDdlCountry" runat="server" 
+                <asp:DropDownList ID="ddlCountryID" runat="server" CssClass="form-control"></asp:DropDownList>
+                <asp:RequiredFieldValidator ID="rfvDdlCountryID" runat="server" 
                     ErrorMessage="Kindly Select a Country&lt;br/&gt;" 
-                ControlToValidate="ddlCountry" Display="Dynamic" Font-Italic="True" 
+                ControlToValidate="ddlCountryID" Display="Dynamic" Font-Italic="True" 
                 ForeColor="#FF5E5E" InitialValue="-1" ValidationGroup="vgState"></asp:RequiredFieldValidator>
             </div>
             

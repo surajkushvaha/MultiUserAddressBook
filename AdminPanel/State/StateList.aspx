@@ -8,7 +8,7 @@
 
         <div class="d-flex justify-content-between mb-3">
             <h3 class="">State List</h3>
-            <asp:HyperLink runat="server" ID="add" NavigateUrl="~/AdminPanel/State/StateAddEditPage.aspx"><span class="btn btn-success shadowCard">Add New</span></asp:HyperLink>
+            <asp:HyperLink runat="server" ID="add" NavigateUrl="~/AdminPanel/State/Add"><span class="btn btn-success shadowCard">Add New</span></asp:HyperLink>
         </div>
 
         <div id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
@@ -29,7 +29,7 @@
 
                     <asp:TemplateField HeaderText="Edit">
                         <ItemTemplate>
-                            <asp:HyperLink runat="server" ID="btnEdit" NavigateUrl='<%# "~/AdminPanel/State/StateAddEditPage.aspx?StateID="+ Eval("StateID").ToString().Trim() %>'
+                            <asp:HyperLink runat="server" ID="btnEdit" NavigateUrl='<%# "~/AdminPanel/State/Edit/"+ CommonDropDownFillMethods.Base64Encode(Eval("StateID").ToString().Trim()) %>'
                                 Text="Edit" CssClass="btn btn-info btn-sm shadowCard"></asp:HyperLink>
                         </ItemTemplate>
                     </asp:TemplateField>

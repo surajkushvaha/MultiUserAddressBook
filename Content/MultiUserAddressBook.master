@@ -44,9 +44,9 @@
 
                     <div class="dropdown-content" aria-labelledby="navbarDropdown">
                         <asp:HyperLink ID="hlProfile" runat="server" CssClass="dropdown-item"
-                            Text="Profile" NavigateUrl="~/AdminPanel/User/UserView.aspx"></asp:HyperLink>
+                            Text="Profile" NavigateUrl="~/AdminPanel/Profile"></asp:HyperLink>
                         <asp:HyperLink ID="hlEditInfo" runat="server" CssClass="dropdown-item"
-                            Text="Edit Profile" NavigateUrl="~/AdminPanel/User/UserEditPage.aspx"></asp:HyperLink>
+                            Text="Edit Profile" NavigateUrl="~/AdminPanel/Profile/Edit"></asp:HyperLink>
                         <div class="dropdown-divider"></div>
                         <asp:LinkButton ID="hlLogout" runat="server" CssClass="dropdown-item"
                             Text="Logout"  OnClick="btnLogout_Click" ></asp:LinkButton>
@@ -61,20 +61,23 @@
             <div class="container py-2 px-4">
                 <nav class="justify-content-center">
                     <ul class="d-flex justify-content-around list-unstyled m-0">
-                        <li>
-                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/Contact/ContactList.aspx">Contact</asp:HyperLink>
+                         <li>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/Home">Home</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/ContactCategory/ContactCategoryList.aspx">Contact Category</asp:HyperLink>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/Contact/List">Contact</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/City/CityList.aspx">City</asp:HyperLink>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/ContactCategory/List">Contact Category</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/State/StateList.aspx">State</asp:HyperLink>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/City/List">City</asp:HyperLink>
                         </li>
                         <li>
-                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/Country/CountryList.aspx">Country</asp:HyperLink>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/State/List">State</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink runat="server" CssClass="text-decoration-none text-danger font-weight-bold" NavigateUrl="~/AdminPanel/Country/List">Country</asp:HyperLink>
                         </li>
                     </ul>
                 </nav>
