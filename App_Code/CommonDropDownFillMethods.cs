@@ -473,7 +473,6 @@ public static class CommonDropDownFillMethods
     }
     #endregion FillCheckBoxListForContactCategoryList
 
-
     #region Encryption Decryption
 
     #region Base64Encode

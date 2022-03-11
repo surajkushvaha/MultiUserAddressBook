@@ -12,12 +12,14 @@ namespace MultiUserAddressBook.ENT
 {
     public class CountryENT
     {
+        #region Constructor
         public CountryENT()
         {
             //
             // TODO: Add constructor logic here
             //
         }
+        #endregion Constructor
 
         #region CountryID
         protected SqlInt32 _CountryID;
