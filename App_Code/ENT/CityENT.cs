@@ -71,7 +71,7 @@ namespace MultiUserAddressBook.ENT
         #region CityName
         protected SqlString _CityName;
 
-        public SqlString CityID
+        public SqlString CityName
         {
             get
             {
