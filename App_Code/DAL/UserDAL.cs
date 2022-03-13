@@ -105,7 +105,7 @@ namespace MultiUserAddressBook.DAL
 
                         objCmd.CommandType = CommandType.StoredProcedure;
                         objCmd.CommandText = "PR_User_UpdateByPK";
-                        objCmd.Parameters.Add("@UserName", SqlDbType.Int).Value = entUser.UserID;
+                        objCmd.Parameters.Add("@UserID", SqlDbType.Int).Value = entUser.UserID;
 
                         objCmd.Parameters.Add("@UserName", SqlDbType.VarChar).Value = entUser.UserName;
                         objCmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = entUser.Password;
@@ -211,7 +211,7 @@ namespace MultiUserAddressBook.DAL
                         SqlDataReader objSDR = objCmd.ExecuteReader();
                         if (objSDR.HasRows)
                         {
-                            Message = "This Username is alredy exist try another username;";                          
+                            Message = "This Username is alredy exist try another username";                          
                             return false;
                         }
                         else
@@ -241,7 +241,7 @@ namespace MultiUserAddressBook.DAL
         #endregion Check For Availability UserName
 
         #region Check For Password
-        public Boolean CheckPassword(SqlInt32 UserID)
+        public Boolean CheckPassword(SqlInt32 UserID,SqlString Password)
         {
             using (SqlConnection objConn = new SqlConnection(ConnectionString))
             {
@@ -263,15 +263,22 @@ namespace MultiUserAddressBook.DAL
                         #region Read Data & Set Controls
                         using (SqlDataReader objSDR = objCmd.ExecuteReader())
                         {
-                            UserENT entUser = new UserENT();
                             if (objSDR.HasRows)
                             {
                                 while (objSDR.Read())
                                 {
                                     if (!objSDR["Password"].Equals(DBNull.Value))
                                     {
-                                        if (objSDR["Password"].ToString().Trim() == entUser.Password)
+                                        if (objSDR["Password"].ToString().Trim() == Password)
+                                        {
                                             return true;
+                                        }
+                                        else
+                                        {
+                                            Message = "Please Enter Correct Password";
+                                            return false;
+                                        }
+
                                     }
                                 }
 
@@ -436,6 +443,11 @@ namespace MultiUserAddressBook.DAL
 
                                 break;
                             }
+                        }
+                        else
+                        {
+                            Message = "Wrong UserName and Passsword";
+                            return null;
                         }
                         return entUser;
                         #endregion Read Data & Set Controls

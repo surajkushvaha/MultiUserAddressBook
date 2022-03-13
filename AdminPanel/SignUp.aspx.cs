@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MultiUserAddressBook;
+using MultiUserAddressBook.ENT;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -24,11 +26,7 @@ public partial class SignUp : System.Web.UI.Page
         #region Local Variable
         String strErrorMsg = "";
         SqlString strUserName = SqlString.Null;
-        SqlString strPassword = SqlString.Null;
-        SqlString strDisplayName = SqlString.Null;
-        SqlString strMobileNo = SqlString.Null;
-        SqlString strAddress = SqlString.Null;
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
+        
         #endregion Local Variable
 
         #region Server Side Validation
@@ -53,116 +51,71 @@ public partial class SignUp : System.Web.UI.Page
         #endregion Server Side validation
 
         #region Assign Value
+
+       UserENT entUser = new UserENT();
         if (txtUserName.Text.Trim() != "")
         {
             strUserName = txtUserName.Text.Trim();
-            if (checkUsername(strUserName) == false) {
+            if (checkUsername(strUserName) == true) {
+                entUser.UserName = strUserName;
+            }
+            else
+            {
                 return;
             }
         }
         if (txtPassword.Text.Trim() != "")
         {
-            strPassword = txtPassword.Text.Trim();
+            entUser.Password = txtPassword.Text.Trim();
         }
         if (txtDisplayName.Text.Trim() != "")
         {
-            strDisplayName = txtDisplayName.Text.Trim();
+            entUser.DisplayName = txtDisplayName.Text.Trim();
         }
-        strMobileNo = txtMobileNo.Text.Trim();
-        strAddress = txtAddress.Text.Trim();
+        if (txtMobileNo.Text.Trim() != "")
+        {
+            entUser.MobileNo = txtMobileNo.Text.Trim();
+        }
+        if (txtAddress.Text.Trim() != "")
+        {
+            entUser.Address = txtAddress.Text.Trim();
+        }
 
         #endregion Assign Value
-        try
+
+        #region insert
+        UserBAL balUser = new UserBAL();
+
+        if (balUser.Insert(entUser))
         {
-            #region Read the Value & Set the Controls
-
-
-            if (objConn.State != ConnectionState.Open)
-            {
-                objConn.Open();
-            }
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_User_Insert";
-            objCmd.Parameters.AddWithValue("@UserName",strUserName);
-            objCmd.Parameters.AddWithValue("@Password", strPassword);
-            objCmd.Parameters.AddWithValue("@DisplayName", strDisplayName);
-            objCmd.Parameters.AddWithValue("@MobileNo", strMobileNo);
-            objCmd.Parameters.AddWithValue("@Address", strAddress);
-            objCmd.ExecuteNonQuery();
-
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-            #endregion Read the Value & Set the Controls
-
             Response.Redirect("~/AdminPanel/Login", true);
         }
-        catch (Exception ex)
+        else
         {
-            lblErrMsg.Text = ex.Message;
+            lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
         }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-        }
+        #endregion insert
     }
         #endregion Button : Save
 
     #region Check User Name
     private bool checkUsername(SqlString strUserName)
     {
-        bool flag = true;
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        try
+        UserBAL balUser = new UserBAL();
+        if (balUser.CheckForInsert(strUserName))
         {
-
-            if (objConn.State != ConnectionState.Open)
-            {
-                objConn.Open();
-            }
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_User_CheckForInsert";
-            objCmd.Parameters.AddWithValue("@UserName",strUserName);          
-
-            SqlDataReader objSDR = objCmd.ExecuteReader();
-            if(objSDR.HasRows){
-                lblErrMsg.Text ="This Username is alredy exist try another username;";
-                lblErrMsg.Visible = true;
-                lblMsgDiv.Visible = true;
-                flag = false;
-            }
-            else
-            {
-                flag = true;
-            }
-           
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
+            return true;
         }
-        catch (Exception ex)
+        else
         {
-            lblErrMsg.Text = ex.Message;
+            lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            return false;
         }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-        }
-        return flag;
+        
     }
     #endregion Check User Name 
 }

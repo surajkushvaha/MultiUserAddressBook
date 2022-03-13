@@ -106,10 +106,10 @@ namespace MultiUserAddressBook
 
         #region CheckForPassword
 
-        public Boolean CheckPassword(SqlInt32 UserID)
+        public Boolean CheckPassword(SqlInt32 UserID,SqlString Password)
         {
             UserDAL dalUser = new UserDAL();
-            if (dalUser.CheckPassword(UserID))
+            if (dalUser.CheckPassword(UserID,Password))
             {
                 return true;
             }
@@ -125,7 +125,10 @@ namespace MultiUserAddressBook
         public UserENT SelectByUserID(SqlInt32 UserID)
         {
             UserDAL dalUser = new UserDAL();
-            return dalUser.SelectByUserID(UserID);
+            UserENT entUser = new UserENT();
+            entUser = dalUser.SelectByUserID(UserID);
+            Message = dalUser.Message;
+            return entUser;
         }
         #endregion SelectByUserID
 
@@ -133,7 +136,11 @@ namespace MultiUserAddressBook
         public UserENT SelctByUserNamePassword(SqlString UserName, SqlString Password)
         {
             UserDAL dalUser = new UserDAL();
-            return dalUser.SelctByUserNamePassword(UserName, Password);
+            UserENT entUser = new UserENT();
+
+            entUser = dalUser.SelctByUserNamePassword(UserName, Password);
+            Message = dalUser.Message;
+            return entUser;
         }
         #endregion SelctByUserNamePassword
     }

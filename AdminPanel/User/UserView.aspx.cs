@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MultiUserAddressBook;
+using MultiUserAddressBook.ENT;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -33,149 +35,84 @@ public partial class AdminPanel_User_UserView : System.Web.UI.Page
     #region fill data
     private void fillData()
     {
+        UserBAL balUser = new UserBAL();
+        UserENT entUser = new UserENT();
 
-        #region local variable
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion local variable
+        entUser = balUser.SelectByUserID(Convert.ToInt32(Session["UserID"]));
 
-        try
+        if (entUser != null)
         {
-             #region Connection & Command object
-            if (objConn.State != ConnectionState.Open)
-                {
-                    objConn.Open();
-                }
 
-                SqlCommand objCmd = objConn.CreateCommand();
-                objCmd.CommandType = CommandType.StoredProcedure;
-                objCmd.CommandText = "PR_User_SelectByUserID";
-                if (Session["UserID"] != null)
+                if (!entUser.UserName.IsNull)
                 {
-                    objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
+                    lblShowUserName.Text = entUser.UserName.ToString().Trim();
                 }
-            #endregion Connection & Command Object
-
-             #region read the value and set the controls
-                SqlDataReader objSDR = objCmd.ExecuteReader();
-                if (objSDR.HasRows)
+                if (!entUser.DisplayName.IsNull)
                 {
-                    while (objSDR.Read())
+                    lblShowDisplayName.Text = entUser.DisplayName.ToString().Trim();
+                }
+                if (!entUser.MobileNo.IsNull)
+                {
+                    lblShowMobileNo.Text = entUser.MobileNo.ToString().Trim();
+                    if (lblShowMobileNo.Text == "")
                     {
-                        if (!objSDR["Username"].Equals(DBNull.Value))
-                        {
-                            lblShowUserName.Text = objSDR["Username"].ToString().Trim();
-                        }
-                        if (!objSDR["DisplayName"].Equals(DBNull.Value))
-                        {
-                            lblShowDisplayName.Text = objSDR["DisplayName"].ToString().Trim();
-                        }
-                        if (!objSDR["MobileNo"].Equals(DBNull.Value))
-                        {
-                            lblShowMobileNo.Text = objSDR["MobileNo"].ToString().Trim();
-                             if(lblShowMobileNo.Text == "" )
-                            {
-                                lblShowMobileNo.Text = "Mobile No Not Provided By You";
-                            }
-                        }
-                        else
-                        {
-                            lblShowMobileNo.Text = "Mobile No Not Provided By You";
-                        }
-                        if (!objSDR["Address"].Equals(DBNull.Value))
-                        {
-                            lblShowAddress.Text = objSDR["Address"].ToString().Trim();
-                            if(lblShowAddress.Text == "")
-                            {
-                                lblShowAddress.Text = "Address Not Provided By You";
-                            }
-                        }
-                        else
-                        {
-                            lblShowAddress.Text = "Address Not Provided By You";
-                        }
-                        if (!objSDR["CreationDate"].Equals(DBNull.Value))
-                        {
-                            lblShowCreation.Text = objSDR["CreationDate"].ToString().Trim();
-                        }
-                        if (!objSDR["ModificationDate"].Equals(DBNull.Value))
-                        {
-                            lblShowModification.Text = objSDR["ModificationDate"].ToString().Trim();
-                        }
+                        lblShowMobileNo.Text = "Mobile No Not Provided By You";
                     }
                 }
-                if (objConn.State == ConnectionState.Open)
+                else
                 {
-                    objConn.Close();
+                    lblShowMobileNo.Text = "Mobile No Not Provided By You";
                 }
-                #endregion  read the value and set the controls
+
+                if (!entUser.Address.IsNull)
+                {
+                    lblShowAddress.Text = entUser.Address.ToString().Trim();
+                    if (lblShowAddress.Text == "")
+                    {
+                        lblShowAddress.Text = "Address Not Provided By You";
+                    }
+                }
+                else
+                {
+                    lblShowAddress.Text = "Address Not Provided By You";
+                }
+
+                if (!entUser.CreationDate.IsNull)
+                {
+                    lblShowCreation.Text = entUser.CreationDate.ToString().Trim();
+                }
+                if (!entUser.ModificationDate.IsNull)
+                {
+                    lblShowModification.Text = entUser.ModificationDate.ToString().Trim();
+                }          
         }
-        catch(Exception ex){
+        else
+        {
+            lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblErrMsg.Text = ex.Message;
-        }
-        finally{
-            if (objConn.State == ConnectionState.Open)
-            {
-               objConn.Close();
-            }
-        }
-            
+            return;
+        }           
     }
     #endregion fill data
 
     #region Delete User
     protected void btnDelete_Click(object sender, EventArgs e)
-    {
-        #region local variable
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion local variable
-
-        try
-        {
-            #region Connection & Command object
-            if (objConn.State != ConnectionState.Open)
-            {
-                objConn.Open();
-            }
-
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_User_DeleteByUserID";
+    {          
             if (Session["UserID"] != null)
             {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
+                UserBAL balUser= new UserBAL();
+                if(balUser.Delete(Convert.ToInt32(Session["UserID"]))){
+                    Session.Clear();
+                    Response.Redirect("~/AdminPanel/Login", true);
+                }
+                else
+                {
+                    lblErrMsg.Text = balUser.Message;
+                    lblErrMsg.Visible = true;
+                    lblMsgDiv.Visible = true;
+                }
             }
-            objCmd.ExecuteNonQuery();
-            
-            Session.Clear();
-
-            Response.Redirect("~/AdminPanel/Login", true);
-            #endregion Connection & Command Object
-
-           
-            #region read the value and set the controls
-           
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-            #endregion  read the value and set the controls
-        }
-        catch (Exception ex)
-        {
-            lblErrMsg.Visible = true;
-            lblMsgDiv.Visible = true;
-            lblErrMsg.Text = ex.Message;
-        }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-        }
-
     }
     #endregion Delete User
   

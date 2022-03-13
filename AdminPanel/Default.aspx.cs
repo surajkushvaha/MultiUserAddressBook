@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MultiUserAddressBook;
+using MultiUserAddressBook.ENT;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -28,14 +30,11 @@ public partial class AdminPanel_Default : System.Web.UI.Page
     #region Button: Login
     protected void btnLogin_Click(object sender, EventArgs e)
     {
-        #region Local Variable
-        String strErrorMsg = "";
-        SqlString strUserName = SqlString.Null;
-        SqlString strPassword = SqlString.Null;
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion Local Varable
 
         #region Server Side Validation
+        string strErrorMsg = "";
+        SqlString strUserName = SqlString.Null;
+        SqlString strPassword = SqlString.Null;
         if (txtUserName.Text.Trim() == "")
         {
             strErrorMsg += "- Enter User Name </br>";
@@ -63,64 +62,32 @@ public partial class AdminPanel_Default : System.Web.UI.Page
         }
         #endregion Assign the Value
 
-        try
-        {
-            #region Connection & Command Object
-            if (objConn.State != ConnectionState.Open)
-            {
-                objConn.Open();
-            }
-            
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_User_SelectByUserNamePassword";
-            objCmd.Parameters.AddWithValue("@UserName", strUserName);
-            objCmd.Parameters.AddWithValue("@Password", strPassword);
-            #endregion Connection & Command Object
+        #region Login
+        UserBAL balUser = new UserBAL();
+        UserENT entUser = new UserENT();
 
-            #region Read the Value & Set the Controls
-            SqlDataReader objSDR = objCmd.ExecuteReader();
-            if(objSDR.HasRows)
-            {
-                
-                while (objSDR.Read())
-                {
-                    if (!objSDR["UserID"].Equals(DBNull.Value))
-                    {
-                        Session["UserID"] = objSDR["UserID"].ToString().Trim();
-                    }
-                    if (!objSDR["DisplayName"].Equals(DBNull.Value))
-                    {
-                        Session["DisplayName"] = objSDR["DisplayName"].ToString().Trim();
-                    }
-                }
-                Response.Redirect("~/AdminPanel/Home", true);
-            }
-            else
-            {
-                lblErrMsg.Visible = true;
-                lblMsgDiv.Visible = true;
-                lblErrMsg.Text = "Wrong Username or Password.";
-            }
-            if(objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-            #endregion Read the Value & Set the Controls
-        }
-        catch(Exception ex)
+        entUser = balUser.SelctByUserNamePassword(strUserName,strPassword);
+
+        if (entUser != null)
         {
+            if (!entUser.UserID.IsNull)
+                Session["UserID"] = entUser.UserID.ToString().Trim();
+            if (!entUser.DisplayName.IsNull)
+                Session["DisplayName"] = entUser.DisplayName.ToString().Trim();
+
+            Response.Redirect("~/AdminPanel/Home", true);
+        }
+
+        else
+        {
+            lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblErrMsg.Text = ex.Message;
+            return;
+
         }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-        }
+        #endregion Login
+
     }
     #endregion Button: Login
   

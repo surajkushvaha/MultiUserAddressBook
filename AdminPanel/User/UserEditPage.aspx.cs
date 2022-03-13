@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MultiUserAddressBook;
+using MultiUserAddressBook.ENT;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -32,17 +34,17 @@ public partial class AdminPanel_User_UserEditPage : System.Web.UI.Page
     protected void btnSave_Click(object sender, EventArgs e)
     {
         #region Local Variables
-        SqlString strUsername = SqlString.Null;
-        SqlString strNewPassword = SqlString.Null;
-        SqlString strDisplayName = SqlString.Null;
-        SqlString strMobileNo = SqlString.Null;
-        SqlString strAddress = SqlString.Null;
+       
         String strErrMsg = "";
 
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
         #endregion Local Variables
 
         #region Server Side Validation and Assgining values
+        UserENT entUser = new UserENT();
+        if (Session["UserID"] != null)
+        {
+            entUser.UserID = Convert.ToInt32(Session["UserID"]);
+        }
         if (txtUserName.Text.Trim() == "")
         {
             strErrMsg += "Enter Username </br>";
@@ -53,14 +55,15 @@ public partial class AdminPanel_User_UserEditPage : System.Web.UI.Page
         }
         if (txtPassword.Text.Trim() != "")
         {
-            if (chkPassword(txtPassword.Text.Trim()) != true)
+            if (chkPassword(Convert.ToInt32(Session["UserID"]),txtPassword.Text.Trim()) == true)
             {
-                lblMsgDiv.Visible = true;
-                lblErrMsg.Visible = true;
-                lblErrMsg.Text = "Please Enter Correct Password";
+                entUser.Password = txtPassword.Text.Trim();
+
+            }
+            else
+            {
                 return;
             }
-            strNewPassword = txtPassword.Text.Trim();
 
         }
         else
@@ -75,209 +78,101 @@ public partial class AdminPanel_User_UserEditPage : System.Web.UI.Page
             lblErrMsg.Text = strErrMsg;
             return;
         }
+       
         if (txtNewPassword.Text.Trim() != "")
         {
-            strNewPassword = txtNewPassword.Text.Trim();
+            entUser.Password = txtNewPassword.Text.Trim();
         }
         if (txtUserName.Text.Trim() != "")
         {
-            strUsername = txtUserName.Text.Trim();
+            entUser.UserName = txtUserName.Text.Trim();
         }
         if (txtDisplayName.Text.Trim() != "")
         {
-            strDisplayName = txtDisplayName.Text.Trim();
+            entUser.DisplayName = txtDisplayName.Text.Trim();
         }
-        strMobileNo = txtMobileNo.Text.Trim();
-        strAddress = txtAddress.Text.Trim();
+        if (txtMobileNo.Text.Trim() != "")
+        {
+            entUser.MobileNo = txtMobileNo.Text.Trim();
+        }
+        if (txtAddress.Text.Trim() != "")
+        {
+            entUser.Address = txtAddress.Text.Trim();
+        }
         #endregion Server Side Validation and Assgining values
+      
+        #region Update
+        UserBAL balUser = new UserBAL();
 
-        try
+        if (balUser.Update(entUser))
         {
-            #region Connection & Command object
-            if (objConn.State != ConnectionState.Open)
-            {
-                objConn.Open();
-            }
-            
-            
-            if (objConn.State != ConnectionState.Open)
-            {
-                objConn.Open();
-            }
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_User_UpdateByPK";
-            if (Session["UserID"] != null)
-            {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
-            }
-            objCmd.Parameters.AddWithValue("@UserName", strUsername);
-            objCmd.Parameters.AddWithValue("@Password", strNewPassword);
-            objCmd.Parameters.AddWithValue("@DisplayName", strDisplayName);
-            objCmd.Parameters.AddWithValue("@MobileNo", strMobileNo);
-            objCmd.Parameters.AddWithValue("@Address", strAddress);
-            objCmd.ExecuteNonQuery();
-            Response.Redirect("~/AdminPanel/Profile",true);
-
-            #endregion Connection & Command Object
-
-            
-            
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
+            Session["DisplayName"] = entUser.DisplayName.ToString().Trim();
+            Response.Redirect("~/AdminPanel/Profile", true);
         }
-        catch (Exception ex)
+        else
         {
+            lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblErrMsg.Text = ex.Message;
         }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-        }
-
+        #endregion Update   
     }
     #endregion Button : Save
 
     #region fill controls
     private void fillControls()
     {
+        UserBAL balUser = new UserBAL();
+        UserENT entUser = new UserENT();
 
-        #region local variable
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion local variable
+        entUser = balUser.SelectByUserID(Convert.ToInt32(Session["UserID"]));
 
-        try
+        if (entUser != null)
         {
-            #region Connection & Command object
-            if (objConn.State != ConnectionState.Open)
+
+            if (!entUser.UserName.IsNull)
             {
-                objConn.Open();
+                txtUserName.Text = entUser.UserName.ToString().Trim();
             }
-
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_User_SelectByUserID";
-            if (Session["UserID"] != null)
+            if (!entUser.DisplayName.IsNull)
             {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
+                txtDisplayName.Text = entUser.DisplayName.ToString().Trim();
             }
-            #endregion Connection & Command Object
-
-            #region read the value and set the controls
-            SqlDataReader objSDR = objCmd.ExecuteReader();
-            if (objSDR.HasRows)
+            if (!entUser.MobileNo.IsNull)
             {
-                while (objSDR.Read())
-                {
-                    if (!objSDR["Username"].Equals(DBNull.Value))
-                    {
-                        txtUserName.Text = objSDR["Username"].ToString().Trim();
-                    }
-                    if (!objSDR["DisplayName"].Equals(DBNull.Value))
-                    {
-                        txtDisplayName.Text = objSDR["DisplayName"].ToString().Trim();
-                    }
-                    if (!objSDR["MobileNo"].Equals(DBNull.Value))
-                    {
-                        txtMobileNo.Text = objSDR["MobileNo"].ToString().Trim();
-                    }
-
-                    if (!objSDR["Address"].Equals(DBNull.Value))
-                    {
-                        txtAddress.Text = objSDR["Address"].ToString().Trim();
-                    }
-
-
-                }
+                txtMobileNo.Text = entUser.MobileNo.ToString().Trim();          
             }
-            if (objConn.State == ConnectionState.Open)
+            if (!entUser.Address.IsNull)
             {
-                objConn.Close();
-            }
-            #endregion  read the value and set the controls
+                txtAddress.Text = entUser.Address.ToString().Trim();              
+            }         
         }
-        catch (Exception ex)
+        else
         {
+            lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblErrMsg.Text = ex.Message;
-        }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-        }
+            return;
+        }          
+
     }
     #endregion fill controls
 
     #region check password
-    private bool chkPassword(SqlString password)
+    private bool chkPassword(SqlInt32 UserID,SqlString Password)
     {
-        bool flag = false;
-        #region local variable
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion local variable
-
-        try
+        UserBAL balUser = new UserBAL();
+        if (balUser.CheckPassword(UserID,Password))
         {
-            #region Connection & Command object
-            if (objConn.State != ConnectionState.Open)
-            {
-                objConn.Open();
-            }
-
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_User_CheckPassword";
-            if (Session["UserID"] != null)
-            {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
-            }
-            #endregion Connection & Command Object
-
-            #region read the value and set the controls
-            SqlDataReader objSDR = objCmd.ExecuteReader();
-            if (objSDR.HasRows)
-            {
-                while (objSDR.Read())
-                {
-                    if (!objSDR["Password"].Equals(DBNull.Value))
-                    {
-                        if(objSDR["Password"].ToString().Trim() == password)
-                            flag = true;
-                    }
-                }
-
-            }
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-            #endregion  read the value and set the controls
+            return true;
         }
-        catch (Exception ex)
+        else
         {
+            lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblErrMsg.Text = ex.Message;
+            return false;
         }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-            {
-                objConn.Close();
-            }
-        }
-        return flag;
     }
     #endregion check password
 }

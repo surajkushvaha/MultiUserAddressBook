@@ -79,10 +79,10 @@ namespace MultiUserAddressBook.BAL
 
         #region Delete
 
-        public Boolean Delete(SqlInt32 ContactCategoryID)
+        public Boolean Delete(SqlInt32 ContactCategoryID,SqlInt32 UserID)
         {
             ContactCategoryDAL dalContactCategory = new ContactCategoryDAL();
-            if (dalContactCategory.Delete(ContactCategoryID))
+            if (dalContactCategory.Delete(ContactCategoryID,UserID))
             {
                 return true;
             }
