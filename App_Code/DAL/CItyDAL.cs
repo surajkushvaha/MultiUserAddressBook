@@ -87,7 +87,7 @@ namespace MultiUserAddressBook.DAL
         #endregion Select All
 
         #region Select By PK
-        public CityENT SelctByPKUserID(SqlInt32 UserID, SqlInt32 CityID)
+        public CityENT SelectByPKUserID(SqlInt32 UserID, SqlInt32 CityID)
         {
             using (SqlConnection objCon = new SqlConnection(ConnectionString))
             {

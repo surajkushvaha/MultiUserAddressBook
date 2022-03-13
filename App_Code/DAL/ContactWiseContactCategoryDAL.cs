@@ -12,10 +12,10 @@ using System.Web;
 /// </summary>
 namespace MultiUserAddressBook.DAL
 {
-    public class ContactWiseContactWiseContactCategoryDAL : DatabaseConfig
+    public class ContactWiseContactCategoryDAL : DatabaseConfig
     {
         #region Constructor
-        public ContactWiseContactWiseContactCategoryDAL()
+        public ContactWiseContactCategoryDAL()
         {
             //
             // TODO: Add constructor logic here

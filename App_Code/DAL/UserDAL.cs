@@ -208,9 +208,16 @@ namespace MultiUserAddressBook.DAL
                         #endregion Prepare Command
 
 
-                        objCmd.ExecuteNonQuery();
-
-                        return true;
+                        SqlDataReader objSDR = objCmd.ExecuteReader();
+                        if (objSDR.HasRows)
+                        {
+                            Message = "This Username is alredy exist try another username;";                          
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
 
                     }
                     catch (SqlException sqlex)
@@ -234,7 +241,7 @@ namespace MultiUserAddressBook.DAL
         #endregion Check For Availability UserName
 
         #region Check For Password
-        public DataTable CheckPassword(SqlInt32 UserID)
+        public Boolean CheckPassword(SqlInt32 UserID)
         {
             using (SqlConnection objConn = new SqlConnection(ConnectionString))
             {
@@ -254,24 +261,35 @@ namespace MultiUserAddressBook.DAL
                         #endregion Prepare Command
 
                         #region Read Data & Set Controls
-                        DataTable dt = new DataTable();
                         using (SqlDataReader objSDR = objCmd.ExecuteReader())
                         {
-                            dt.Load(objSDR);
+                            UserENT entUser = new UserENT();
+                            if (objSDR.HasRows)
+                            {
+                                while (objSDR.Read())
+                                {
+                                    if (!objSDR["Password"].Equals(DBNull.Value))
+                                    {
+                                        if (objSDR["Password"].ToString().Trim() == entUser.Password)
+                                            return true;
+                                    }
+                                }
+
+                            }
                         }
-                        return dt;
+                        return false;
                         #endregion Read Data & Set Controls
 
                     }
                     catch (SqlException sqlex)
                     {
                         Message = sqlex.Message;
-                        return null;
+                        return false;
                     }
                     catch (Exception ex)
                     {
                         Message = ex.InnerException.Message;
-                        return null;
+                        return false;
                     }
                     finally
                     {
@@ -284,7 +302,7 @@ namespace MultiUserAddressBook.DAL
         #endregion Check For Password
 
         #region Select By UserID
-        public UserENT SelctByUserID(SqlInt32 UserID)
+        public UserENT SelectByUserID(SqlInt32 UserID)
         {
             using (SqlConnection objCon = new SqlConnection(ConnectionString))
             {
@@ -366,7 +384,7 @@ namespace MultiUserAddressBook.DAL
         #endregion Select By UserID
 
         #region Select By UserName & Password
-        public DataTable SelctByUserNamePassword(SqlString UserName, SqlString Password)
+        public UserENT SelctByUserNamePassword(SqlString UserName, SqlString Password)
         {
             using (SqlConnection objCon = new SqlConnection(ConnectionString))
             {
@@ -385,13 +403,41 @@ namespace MultiUserAddressBook.DAL
                         objCmd.Parameters.AddWithValue("@UserName", UserName);
                         #endregion Prepare Command
 
-                         #region Read Data & Set Controls
-                        DataTable dt = new DataTable();
-                        using (SqlDataReader objSDR = objCmd.ExecuteReader())
+                        #region Read Data & Set Controls
+                        UserENT entUser = new UserENT();
+
+                        SqlDataReader objSDR = objCmd.ExecuteReader();
+
+                        if (objSDR.HasRows)
                         {
-                            dt.Load(objSDR);
+                            while (objSDR.Read())
+                            {
+                                if (!objSDR["UserID"].Equals(DBNull.Value))
+                                {
+                                    entUser.UserID = Convert.ToInt32(objSDR["UserID"].ToString().Trim());
+                                }
+                                if (!objSDR["UserName"].Equals(DBNull.Value))
+                                {
+                                    entUser.UserName = objSDR["UserName"].ToString().Trim();
+                                }
+                                if (!objSDR["DisplayName"].Equals(DBNull.Value))
+                                {
+                                    entUser.DisplayName = objSDR["DisplayName"].ToString().Trim();
+                                }
+                                if (!objSDR["MobileNo"].Equals(DBNull.Value))
+                                {
+                                    entUser.MobileNo = objSDR["MobileNo"].ToString().Trim();
+                                }
+
+                                if (!objSDR["Address"].Equals(DBNull.Value))
+                                {
+                                    entUser.Address = objSDR["Address"].ToString().Trim();
+                                }
+
+                                break;
+                            }
                         }
-                        return dt;
+                        return entUser;
                         #endregion Read Data & Set Controls
 
                     }

@@ -87,7 +87,7 @@ namespace MultiUserAddressBook.DAL
         #endregion Select All
 
         #region Select By PK
-        public ContactCategoryENT SelctByPKUserID(SqlInt32 UserID, SqlInt32 ContactCategoryID)
+        public ContactCategoryENT SelectByPKUserID(SqlInt32 UserID, SqlInt32 ContactCategoryID)
         {
             using (SqlConnection objCon = new SqlConnection(ConnectionString))
             {
