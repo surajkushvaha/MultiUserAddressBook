@@ -29,7 +29,7 @@
 
                     <asp:TemplateField HeaderText="Edit">
                         <ItemTemplate>
-                            <asp:HyperLink runat="server" ID="btnEdit" NavigateUrl='<%# "~/AdminPanel/State/Edit/"+ CommonDropDownFillMethods.Base64Encode(Eval("StateID").ToString().Trim()) %>'
+                            <asp:HyperLink runat="server" ID="btnEdit" NavigateUrl='<%# "~/AdminPanel/State/Edit/"+ MultiUserAddressBook.EncryptionDecryption.Base64Encode(Eval("StateID").ToString().Trim()) %>'
                                 Text="Edit" CssClass="btn btn-info btn-sm shadowCard"></asp:HyperLink>
                         </ItemTemplate>
                     </asp:TemplateField>

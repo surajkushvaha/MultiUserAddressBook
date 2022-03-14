@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MultiUserAddressBook;
+using MultiUserAddressBook.BAL;
+using MultiUserAddressBook.ENT;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -22,7 +25,7 @@ public partial class AdminPanel_State_StateAddEditPage : System.Web.UI.Page
             {
                 lblMode.Text = "Edit State";
                 btnAdd.Text = "Edit";
-                fillControls(Convert.ToInt32(CommonDropDownFillMethods.Base64Decode(Page.RouteData.Values["StateID"].ToString().Trim())));
+                fillControls(Convert.ToInt32(MultiUserAddressBook.EncryptionDecryption.Base64Decode(Page.RouteData.Values["StateID"].ToString().Trim())));
             }
             else
             {
@@ -37,13 +40,7 @@ public partial class AdminPanel_State_StateAddEditPage : System.Web.UI.Page
     #region Button : Save
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        #region Local Variables
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-
-        SqlInt32 strCountryID = SqlInt32.Null;
-        SqlString strStateName = SqlString.Null;
-        SqlString strStateCode = SqlString.Null;
-        #endregion Local Variables
+       
 
         #region Server Side Validation
         //server side validation
@@ -71,165 +68,112 @@ public partial class AdminPanel_State_StateAddEditPage : System.Web.UI.Page
 
         #region Gather Information
         //Gather the information
+        StateENT entState = new StateENT();
         if (ddlCountryID.SelectedIndex > 0)
         {
-            strCountryID = Convert.ToInt32(ddlCountryID.SelectedValue);
+            entState.CountryID = Convert.ToInt32(ddlCountryID.SelectedValue);
         }
         if (txtStateName.Text.Trim() != "")
         {
-            strStateName = txtStateName.Text.Trim();
+            entState.StateName = txtStateName.Text.Trim();
         }
         if (txtStateCode.Text.Trim() != "")
         {
-            strStateCode = txtStateCode.Text.Trim();
+            entState.StateCode = txtStateCode.Text.Trim();
+        }
+        if (Session["UserID"] != null)
+        {
+            entState.UserID = Convert.ToInt32(Session["UserID"]);
         }
         #endregion Gather Information
+        StateBAL balState = new StateBAL();
 
-        try
+        if (Page.RouteData.Values["StateID"] != null)
         {
-            #region Set Connection & Command Object
-            if (objConn.State != ConnectionState.Open)
-                objConn.Open();
-
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            if (Session["UserID"] != null)
+            SqlInt32 StateID = Convert.ToInt32(EncryptionDecryption.Base64Decode(Page.RouteData.Values["StateID"].ToString().Trim()));
+            entState.StateID = StateID;
+            if (balState.Update(entState))
             {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
-            }
-            objCmd.Parameters.AddWithValue("@CountryID", strCountryID);
-            objCmd.Parameters.AddWithValue("@StateName", strStateName);
-            objCmd.Parameters.AddWithValue("@StateCode", strStateCode);
-            
-            #endregion Set Connection & Command Object
-
-
-            if (Page.RouteData.Values["StateID"] != null)
-            {
-                #region Update Record
-                objCmd.CommandText = "[dbo].[PR_State_UpdateByPKUserID]";
-                objCmd.Parameters.AddWithValue("@StateID",CommonDropDownFillMethods.Base64Decode(Page.RouteData.Values["StateID"].ToString().Trim()));
-                objCmd.ExecuteNonQuery();
-                Response.Redirect("~/AdminPanel/State/List", true);
-                #endregion Update Record
+                ClearField();
+                Response.Redirect("~/AdminPanel/State/StateList.aspx");
             }
             else
             {
-                #region Insert Record
-                objCmd.CommandText = "[dbo].[PR_State_InsertByUserID]";
-                objCmd.ExecuteNonQuery();
-                lblStateMsg.Visible = true;
+                lblErrMsg.Text = balState.Message;
+                lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
-                lblStateMsg.Text = "Data Inserted Successfully";
-                ddlCountryID.SelectedIndex = 0;
-                txtStateName.Text = "";
-                txtStateCode.Text = "";
-
-                ddlCountryID.Focus();
-                #endregion Insert Record
 
             }
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
         }
-        catch (Exception exc)
+        else
         {
-            lblErrMsg.Visible = true;
-            lblMsgDiv.Visible = true;
-            lblErrMsg.Text = exc.Message;
 
+            if (balState.Insert(entState))
+            {
+                ClearField();
+                lblErrMsg.Text = "Data Inserted Successfully";
+                lblErrMsg.Visible = true;
+                lblMsgDiv.Visible = true;
+            }
+            else
+            {
+                lblErrMsg.Text = balState.Message;
+                lblErrMsg.Visible = true;
+                lblMsgDiv.Visible = true;
+            }
         }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
-        }
-
+   
+       
 
     }
     #endregion Button : Save
 
+    #region Clear Fields
+    private void ClearField()
+    {
+        ddlCountryID.SelectedIndex = 0;
+        txtStateCode.Text = "";
+        txtStateName.Text = "";
+        ddlCountryID.Focus();
+    }
+    #endregion Clear Fields
+
     #region FillDropDown
     private void FillDropDownList()
     {
-
-        CommonDropDownFillMethods.FillDropDownState(ddlCountryID,Convert.ToInt32(Session["UserID"]),lblErrMsg,lblMsgDiv);
-        
-
+        CommonDropDownFillMethods.fillDropDownCountry(ddlCountryID,Convert.ToInt32(Session["UserID"]));
     }
     #endregion FillDropDown
 
     #region FillControl
     private void fillControls(SqlInt32 StateID)
     {
-        #region Local Variables
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion Local Variables
-        try
+        StateBAL balState = new StateBAL();
+        StateENT entState = new StateENT();
+
+        entState = balState.SelctByPKUserID(Convert.ToInt32(Session["UserID"]),StateID);
+
+        if (!entState.CountryID.IsNull)
         {
-            #region Set Connection & Command Object
-
-            if (objConn.State != ConnectionState.Open)
-                objConn.Open();
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_State_SelectByPKUserID";
-            objCmd.Parameters.AddWithValue("@StateID", StateID.ToString().Trim());
-            if (Session["UserID"] != null)
-            {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
-            }
-            #endregion Set Connection & Command Object
-
-            #region Read the Value and set the Controls
-            SqlDataReader objSDR = objCmd.ExecuteReader();
-
-            if (objSDR.HasRows)
-            {
-                while (objSDR.Read())
-                {
-                    if (!objSDR["CountryID"].Equals(DBNull.Value))
-                    {
-                        ddlCountryID.SelectedValue = objSDR["CountryID"].ToString().Trim();
-                    }
-                    if (!objSDR["StateName"].Equals(DBNull.Value))
-                    {
-                        txtStateName.Text = objSDR["StateName"].ToString().Trim();
-                    }
-                    if (!objSDR["StateCode"].Equals(DBNull.Value))
-                    {
-                        txtStateCode.Text = objSDR["StateCode"].ToString().Trim();
-                    }
-
-
-                    break;
-                }
-            }
-            else
-            {
-                lblErrMsg.Visible = true;
-                lblMsgDiv.Visible = true;
-                lblErrMsg.Text = "Something went wrong or Wrong URL";
-            }
-            #endregion Read the Value and set the Controls
+            ddlCountryID.SelectedValue = entState.CountryID.ToString().Trim();
 
         }
-        catch (Exception exc)
+        if (!entState.StateName.IsNull)
         {
+            txtStateName.Text = entState.StateName.ToString();
+
+        }
+        if (!entState.StateCode.IsNull)
+        {
+            txtStateCode.Text = entState.StateCode.ToString();
+        }
+
+        if (balState.Message != null)
+        {
+            lblErrMsg.Text = balState.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblErrMsg.Text = exc.Message;
-
         }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
-        }
-
     }
     #endregion FillControl
 }

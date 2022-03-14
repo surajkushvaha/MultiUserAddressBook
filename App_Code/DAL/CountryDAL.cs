@@ -72,7 +72,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -106,40 +106,33 @@ namespace MultiUserAddressBook.DAL
                     #region Read the value and set the controls
                     CountryENT entCountry = new CountryENT();
 
-                    SqlDataReader objSDR = objCmd.ExecuteReader();
-
-                    if (objSDR.HasRows)
+                    using (SqlDataReader objSDR = objCmd.ExecuteReader())
                     {
-                        while (objSDR.Read())
+                        if (objSDR.HasRows)
                         {
-                            if (!objSDR["CountryID"].Equals(DBNull.Value))
+                            while (objSDR.Read())
                             {
-                                entCountry.CountryID = Convert.ToInt32(objSDR["CountryID"].ToString().Trim());
-                            }
-                            if (!objSDR["UserID"].Equals(DBNull.Value))
-                            {
-                                entCountry.CountryID = Convert.ToInt32(objSDR["UserID"].ToString().Trim());
-                            }
-                            if (!objSDR["CountryName"].Equals(DBNull.Value))
-                            {
-                                entCountry.CountryName = objSDR["CountryName"].ToString().Trim();
-                            }
-                            if (!objSDR["CountryCode"].Equals(DBNull.Value))
-                            {
-                                entCountry.CountryCode = objSDR["CountryCode"].ToString().Trim();
-                            }
+                                if (!objSDR["CountryID"].Equals(DBNull.Value))
+                                    entCountry.CountryID = Convert.ToInt32(objSDR["CountryID"]);
 
-                            if (!objSDR["CreationDate"].Equals(DBNull.Value))
-                            {
-                                entCountry.CreationDate = Convert.ToDateTime(objSDR["CreationDate"].ToString().Trim());
+                                if (!objSDR["CountryName"].Equals(DBNull.Value))
+                                    entCountry.CountryName = Convert.ToString(objSDR["CountryName"]);
+
+                                if (!objSDR["CountryCode"].Equals(DBNull.Value))
+                                    entCountry.CountryCode = Convert.ToString(objSDR["CountryCode"]);
+
+                                if (!objSDR["CreationDate"].Equals(DBNull.Value))
+                                    entCountry.CreationDate = Convert.ToDateTime(objSDR["CreationDate"]);
+
+                                if (!objSDR["ModificationDate"].Equals(DBNull.Value))
+                                    entCountry.ModificationDate = Convert.ToDateTime(objSDR["ModificationDate"].ToString().Trim());
+                                
+                                break;
                             }
-                            if (!objSDR["ModificationDate"].Equals(DBNull.Value))
-                            {
-                                entCountry.ModificationDate = Convert.ToDateTime(objSDR["ModificationDate"].ToString().Trim());
-                            }
-                            break;
                         }
                     }
+                   
+                    
                     return entCountry;
                     #endregion Read the value and set the controls
 
@@ -151,7 +144,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -200,7 +193,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -249,7 +242,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -299,7 +292,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -346,7 +339,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally

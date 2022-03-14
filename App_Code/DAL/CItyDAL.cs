@@ -72,7 +72,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -109,47 +109,46 @@ namespace MultiUserAddressBook.DAL
                         #region Read the value and set the controls
                         CityENT entCity = new CityENT();
 
-                        SqlDataReader objSDR = objCmd.ExecuteReader();
-
-                        if (objSDR.HasRows)
+                        using (SqlDataReader objSDR = objCmd.ExecuteReader())
                         {
-                            while (objSDR.Read())
+
+                            if (objSDR.HasRows)
                             {
-                                if (!objSDR["CityID"].Equals(DBNull.Value))
+                                while (objSDR.Read())
                                 {
-                                    entCity.CityID = Convert.ToInt32(objSDR["CityID"].ToString().Trim());
-                                }
+                                    if (!objSDR["CityID"].Equals(DBNull.Value))
+                                    {
+                                        entCity.CityID = Convert.ToInt32(objSDR["CityID"].ToString().Trim());
+                                    }
 
-                                if (!objSDR["StateID"].Equals(DBNull.Value))
-                                {
-                                    entCity.StateID = Convert.ToInt32(objSDR["StateID"].ToString().Trim());
-                                }
-                                if (!objSDR["UserID"].Equals(DBNull.Value))
-                                {
-                                    entCity.UserID = Convert.ToInt32(objSDR["UserID"].ToString().Trim());
-                                }
-                                if (!objSDR["CityName"].Equals(DBNull.Value))
-                                {
-                                    entCity.CityName = objSDR["CityName"].ToString().Trim();
-                                }
-                                if (!objSDR["STDCode"].Equals(DBNull.Value))
-                                {
-                                    entCity.STDCode = objSDR["STDCode"].ToString().Trim();
-                                }
-                                if (!objSDR["PinCode"].Equals(DBNull.Value))
-                                {
-                                    entCity.PinCode = objSDR["PinCode"].ToString().Trim();
-                                }
+                                    if (!objSDR["StateID"].Equals(DBNull.Value))
+                                    {
+                                        entCity.StateID = Convert.ToInt32(objSDR["StateID"].ToString().Trim());
+                                    }
+                                   
+                                    if (!objSDR["CityName"].Equals(DBNull.Value))
+                                    {
+                                        entCity.CityName = objSDR["CityName"].ToString().Trim();
+                                    }
+                                    if (!objSDR["STDCode"].Equals(DBNull.Value))
+                                    {
+                                        entCity.STDCode = objSDR["STDCode"].ToString().Trim();
+                                    }
+                                    if (!objSDR["PinCode"].Equals(DBNull.Value))
+                                    {
+                                        entCity.PinCode = objSDR["PinCode"].ToString().Trim();
+                                    }
 
-                                if (!objSDR["CreationDate"].Equals(DBNull.Value))
-                                {
-                                    entCity.CreationDate = Convert.ToDateTime(objSDR["CreationDate"].ToString().Trim());
+                                    if (!objSDR["CreationDate"].Equals(DBNull.Value))
+                                    {
+                                        entCity.CreationDate = Convert.ToDateTime(objSDR["CreationDate"].ToString().Trim());
+                                    }
+                                    if (!objSDR["ModificationDate"].Equals(DBNull.Value))
+                                    {
+                                        entCity.ModificationDate = Convert.ToDateTime(objSDR["ModificationDate"].ToString().Trim());
+                                    }
+                                    break;
                                 }
-                                if (!objSDR["ModificationDate"].Equals(DBNull.Value))
-                                {
-                                    entCity.ModificationDate = Convert.ToDateTime(objSDR["ModificationDate"].ToString().Trim());
-                                }
-                                break;
                             }
                         }
                         return entCity;
@@ -163,7 +162,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -213,7 +212,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -262,7 +261,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -313,7 +312,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -365,7 +364,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -412,7 +411,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally

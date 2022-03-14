@@ -73,7 +73,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -108,43 +108,42 @@ namespace MultiUserAddressBook.DAL
                         #region Read the value and set the controls
                         StateENT entState = new StateENT();
 
-                        SqlDataReader objSDR = objCmd.ExecuteReader();
-
-                        if (objSDR.HasRows)
+                        using (SqlDataReader objSDR = objCmd.ExecuteReader())
                         {
-                            while (objSDR.Read())
-                            {
-                                if (!objSDR["StateID"].Equals(DBNull.Value))
-                                {
-                                    entState.StateID = Convert.ToInt32(objSDR["StateID"].ToString().Trim());
-                                }
-                                
-                                if (!objSDR["CountryID"].Equals(DBNull.Value))
-                                {
-                                    entState.CountryID = Convert.ToInt32(objSDR["CountryID"].ToString().Trim());
-                                }
-                                if (!objSDR["UserID"].Equals(DBNull.Value))
-                                {
-                                    entState.StateID = Convert.ToInt32(objSDR["UserID"].ToString().Trim());
-                                }
-                                if (!objSDR["StateName"].Equals(DBNull.Value))
-                                {
-                                    entState.StateName = objSDR["StateName"].ToString().Trim();
-                                }
-                                if (!objSDR["StateCode"].Equals(DBNull.Value))
-                                {
-                                    entState.StateCode = objSDR["StateCode"].ToString().Trim();
-                                }
 
-                                if (!objSDR["CreationDate"].Equals(DBNull.Value))
+                            if (objSDR.HasRows)
+                            {
+                                while (objSDR.Read())
                                 {
-                                    entState.CreationDate = Convert.ToDateTime(objSDR["CreationDate"].ToString().Trim());
+                                    if (!objSDR["StateID"].Equals(DBNull.Value))
+                                    {
+                                        entState.StateID = Convert.ToInt32(objSDR["StateID"].ToString().Trim());
+                                    }
+
+                                    if (!objSDR["CountryID"].Equals(DBNull.Value))
+                                    {
+                                        entState.CountryID = Convert.ToInt32(objSDR["CountryID"].ToString().Trim());
+                                    }
+                                   
+                                    if (!objSDR["StateName"].Equals(DBNull.Value))
+                                    {
+                                        entState.StateName = objSDR["StateName"].ToString().Trim();
+                                    }
+                                    if (!objSDR["StateCode"].Equals(DBNull.Value))
+                                    {
+                                        entState.StateCode = objSDR["StateCode"].ToString().Trim();
+                                    }
+
+                                    if (!objSDR["CreationDate"].Equals(DBNull.Value))
+                                    {
+                                        entState.CreationDate = Convert.ToDateTime(objSDR["CreationDate"].ToString().Trim());
+                                    }
+                                    if (!objSDR["ModificationDate"].Equals(DBNull.Value))
+                                    {
+                                        entState.ModificationDate = Convert.ToDateTime(objSDR["ModificationDate"].ToString().Trim());
+                                    }
+                                    break;
                                 }
-                                if (!objSDR["ModificationDate"].Equals(DBNull.Value))
-                                {
-                                    entState.ModificationDate = Convert.ToDateTime(objSDR["ModificationDate"].ToString().Trim());
-                                }
-                                break;
                             }
                         }
                         return entState;
@@ -158,7 +157,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -208,7 +207,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -257,7 +256,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -307,7 +306,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -358,7 +357,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -405,7 +404,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally

@@ -45,20 +45,28 @@ namespace MultiUserAddressBook.BAL
         public DataTable SelectAllByUserID(SqlInt32 UserID)
         {
             CountryDAL dalCountry = new CountryDAL();
-
-            return dalCountry.SelectAllByUserID(UserID);
+            DataTable dtCountry = new DataTable();
+            dtCountry = dalCountry.SelectAllByUserID(UserID);
+            Message = dalCountry.Message;
+            return dtCountry;
         }
 
         public DataTable SelectForDropDownList(SqlInt32 UserID)
         {
             CountryDAL dalCountry = new CountryDAL();
-            return dalCountry.SelectForDropDownList(UserID);
+            DataTable dtCountry = new DataTable();
+            dtCountry = dalCountry.SelectForDropDownList(UserID);
+            Message = dalCountry.Message;
+            return dtCountry;
         }
 
         public CountryENT SelectByPKUserID(SqlInt32 UserID, SqlInt32 CountryID)
         {
             CountryDAL dalCountry = new CountryDAL();
-            return dalCountry.SelectByPKUserID(UserID,CountryID);
+            CountryENT entCountry = new CountryENT();
+            entCountry = dalCountry.SelectByPKUserID(UserID,CountryID);
+            Message = dalCountry.Message;
+            return entCountry;
         }
         #endregion Select Operation
 
@@ -111,8 +119,6 @@ namespace MultiUserAddressBook.BAL
             }
         }
         #endregion Update
-
-
 
     }
 }

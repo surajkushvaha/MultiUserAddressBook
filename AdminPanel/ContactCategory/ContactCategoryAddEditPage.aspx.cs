@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MultiUserAddressBook;
+using MultiUserAddressBook.BAL;
+using MultiUserAddressBook.ENT;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -21,7 +24,7 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEditPage : Sys
             {
                 lblMode.Text = "Edit Contact Category";
                 btnAdd.Text = "Edit";
-                fillControls(Convert.ToInt32(CommonDropDownFillMethods.Base64Decode(Page.RouteData.Values["ContactCategoryID"].ToString().Trim())));
+                fillControls(Convert.ToInt32(EncryptionDecryption.Base64Decode(Page.RouteData.Values["ContactCategoryID"].ToString().Trim())));
 
             }
             else
@@ -36,14 +39,11 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEditPage : Sys
 
     #region Button : Save
     protected void btnAdd_Click(object sender, EventArgs e)
-    {
-        #region Local Variable
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        SqlString strContactCategoryName = SqlString.Null;
-        String strErrorMsg = "";
-        #endregion Local variable
+    {            
 
         #region Server Side Validation
+
+        string strErrorMsg = "";
         if (txtContactCategoryName.Text.Trim() == "")
         {
             strErrorMsg += "- Enter Contry name.<br/>";
@@ -53,127 +53,90 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEditPage : Sys
 
         if (strErrorMsg != "")
         {
-            lblContactCategoryMsg.Visible = true;
+            lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblContactCategoryMsg.Text = strErrorMsg;
+            lblErrMsg.Text = strErrorMsg;
             return;
         }
 
         #endregion Server Side Validation
-        try
+
+        #region Collecting Data
+        ContactCategoryENT entContactCategory = new ContactCategoryENT();
+
+        if (txtContactCategoryName.Text.Trim() != "")
         {
-            #region Set the Connection & Command Object
-            if (objConn.State != ConnectionState.Open)
-                objConn.Open();
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            strContactCategoryName = txtContactCategoryName.Text.Trim();
-            objCmd.Parameters.AddWithValue("@ContactCategoryName", strContactCategoryName);
-            if (Session["UserID"] != null)
-            {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
-            }
-            #endregion Set the Connection & Command Object
+            entContactCategory.ContactCategoryName = txtContactCategoryName.Text.Trim();
+        }
+        if (Session["UserID"] != null)
+        {
+            entContactCategory.UserID = Convert.ToInt32(Session["UserID"]);
+        }
 
+        #endregion Collecting Data
 
-            if (Page.RouteData.Values["ContactCategoryID"] != null)
+        ContactCategoryBAL balContactCategory = new ContactCategoryBAL();
+        if (Page.RouteData.Values["ContactCategoryID"] != null)
+        {
+
+            entContactCategory.ContactCategoryID = Convert.ToInt32(EncryptionDecryption.Base64Decode(Page.RouteData.Values["ContactCategoryID"].ToString().Trim()));
+            if (balContactCategory.Update(entContactCategory))
             {
-                #region Update Record
-                objCmd.CommandText = "[dbo].[PR_ContactCategory_UpdateByPKUserID]";
-                objCmd.Parameters.AddWithValue("@ContactCategoryID",CommonDropDownFillMethods.Base64Decode(Page.RouteData.Values["ContactCategoryID"].ToString().Trim()));
-                objCmd.ExecuteNonQuery();
-                Response.Redirect("~/AdminPanel/ContactCategory/List", true);
-                #endregion Update Record
+                ClearField();
+                Response.Redirect("~/AdminPanel/ContactCategory/ContactCategoryList.aspx");
             }
             else
             {
-                #region Insert Record
-                objCmd.CommandText = "[dbo].[PR_ContactCategory_InsertByUserID]";
-                objCmd.ExecuteNonQuery();
-                lblContactCategoryMsg.Visible = true;
+                lblErrMsg.Text = balContactCategory.Message;
+                lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
-                lblContactCategoryMsg.Text = "Data Inserted Successfully";
-                txtContactCategoryName.Text = "";
-
-                txtContactCategoryName.Focus();
-                #endregion Insert Record
-
             }
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
         }
-        catch (Exception exc)
+        else
         {
-            lblErrMsg.Visible = true;
-            lblMsgDiv.Visible = true;
-            lblErrMsg.Text = exc.Message;
 
-        }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
+            if (balContactCategory.Insert(entContactCategory))
+            {
+                ClearField();
+                lblErrMsg.Text = "Data Inserted Successfully";
+                lblErrMsg.Visible = true;
+                lblMsgDiv.Visible = true;
+            }
+            else
+            {
+                lblErrMsg.Text = balContactCategory.Message;
+                lblErrMsg.Visible = true;
+                lblMsgDiv.Visible = true;
+            }
         }
     }
     #endregion Button : Save
 
+    #region Clear Field
+    private void ClearField()
+    {
+        txtContactCategoryName.Text = "";
+        txtContactCategoryName.Focus();
+    }
+    #endregion Clear Field
+
     #region Fill Controls
     private void fillControls(SqlInt32 ContactCategoryID)
     {
-        #region Local Variable
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion Local Variable
-        try
+        ContactCategoryBAL balContactCategory = new ContactCategoryBAL();
+        ContactCategoryENT entContactCategory = new ContactCategoryENT();
+
+        entContactCategory = balContactCategory.SelectByPKUserID(Convert.ToInt32(Session["UserID"]), ContactCategoryID);
+
+        if (!entContactCategory.ContactCategoryName.IsNull)
         {
-            #region Set the connection and Command object
-            if (objConn.State != ConnectionState.Open)
-                objConn.Open();
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_ContactCategory_SelectByPKUserID";
-            objCmd.Parameters.AddWithValue("@ContactCategoryID", ContactCategoryID.ToString().Trim());
-            if (Session["UserID"] != null)
-            {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"]);
-            }
-            #endregion Set the connection and Command object
-
-            #region Read the value and set the controls
-            SqlDataReader objSDR = objCmd.ExecuteReader();
-
-            if (objSDR.HasRows)
-            {
-                while (objSDR.Read())
-                {
-
-                    if (!objSDR["ContactCategoryName"].Equals(DBNull.Value))
-                    {
-                        txtContactCategoryName.Text = objSDR["ContactCategoryName"].ToString().Trim();
-                    }
-                    break;
-                }
-            }
-            else
-            {
-                lblErrMsg.Visible = true;
-                lblMsgDiv.Visible = true;
-                lblErrMsg.Text = "Something went wrong or Wrong URL";
-            }
-            #endregion Read the value and set the controls
+            txtContactCategoryName.Text = entContactCategory.ContactCategoryName.ToString().Trim();
         }
-        catch (Exception exc)
+        if (balContactCategory.Message != null)
         {
+            lblErrMsg.Text = balContactCategory.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblErrMsg.Text = exc.Message;
-
-        }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
         }
 
     }

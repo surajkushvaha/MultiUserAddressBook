@@ -45,19 +45,28 @@ namespace MultiUserAddressBook.BAL
         public DataTable SelectAllByUserID(SqlInt32 UserID)
         {
             ContactCategoryDAL dalContactCategory = new ContactCategoryDAL();
-            return dalContactCategory.SelectAllByUserID(UserID);
+            DataTable dtContactCategory = new DataTable();
+            dtContactCategory = dalContactCategory.SelectAllByUserID(UserID);
+            Message = dalContactCategory.Message;
+            return dtContactCategory;
         }
 
         public DataTable SelectForDropDownList(SqlInt32 UserID)
         {
             ContactCategoryDAL dalContactCategory = new ContactCategoryDAL();
-            return dalContactCategory.SelectForDropDownList(UserID);
+            DataTable dtContactCategory = new DataTable();
+            dtContactCategory = dalContactCategory.SelectForDropDownList(UserID);
+            Message = dalContactCategory.Message;
+            return dtContactCategory;
         }
 
         public ContactCategoryENT SelectByPKUserID(SqlInt32 UserID,SqlInt32 ContactCategoryID)
         {
             ContactCategoryDAL dalContactCategory = new ContactCategoryDAL();
-            return dalContactCategory.SelectByPKUserID(UserID,ContactCategoryID);
+            ContactCategoryENT entContactCategory = new ContactCategoryENT();
+            entContactCategory = dalContactCategory.SelectByPKUserID(UserID,ContactCategoryID);
+            Message = dalContactCategory.Message;
+            return entContactCategory;
         }
         #endregion Select Operation
 

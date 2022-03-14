@@ -25,10 +25,11 @@
 
                     <asp:TemplateField HeaderText="Edit">
                         <ItemTemplate>
-                            <asp:HyperLink runat="server" ID="btnEdit" NavigateUrl='<%# "~/AdminPanel/ContactCategory/Edit/"+ CommonDropDownFillMethods.Base64Encode( Eval("ContactCategoryID").ToString().Trim()) %>'
+                            <asp:HyperLink runat="server" ID="btnEdit" NavigateUrl='<%# "~/AdminPanel/ContactCategory/Edit/"+ MultiUserAddressBook.EncryptionDecryption.Base64Encode( Eval("ContactCategoryID").ToString().Trim()) %>'
                                 Text="Edit" CssClass="btn btn-info btn-sm shadowCard"></asp:HyperLink>
                         </ItemTemplate>
                     </asp:TemplateField>
+
                     <asp:BoundField DataField="ContactCategoryName" HeaderText="Contact Category" />
                     <asp:BoundField DataField="CreationDate" HeaderText="Created on" />
                      <asp:BoundField DataField="ModificationDate" HeaderText="Last  Modified on" />

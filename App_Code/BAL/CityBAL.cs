@@ -45,25 +45,38 @@ namespace MultiUserAddressBook.BAL
         public DataTable SelectAllByUserID(SqlInt32 UserID)
         {
             CityDAL dalCity = new CityDAL();
-            return dalCity.SelectAllByUserID(UserID);
+            DataTable dtCity = new DataTable();
+            dtCity = dalCity.SelectAllByUserID(UserID);
+            Message = dalCity.Message;
+            return dtCity;
         }
 
         public DataTable SelectForDropDownList(SqlInt32 UserID)
         {
             CityDAL dalCity = new CityDAL();
-            return dalCity.SelectForDropDownList(UserID);
+            DataTable dtCity = new DataTable();
+            dtCity = dalCity.SelectForDropDownList(UserID);
+            Message = dalCity.Message;
+            return dtCity;
         }
 
         public CityENT SelectByPKUserID(SqlInt32 UserID, SqlInt32 CityID)
         {
             CityDAL dalCity = new CityDAL();
-            return dalCity.SelectByPKUserID(UserID, CityID);
+            CityENT entCity = new CityENT();
+            entCity = dalCity.SelectByPKUserID(UserID, CityID);
+            Message = dalCity.Message;
+            return entCity;
         }
 
         public DataTable SelectByStateIDUserID(SqlInt32 StateID, SqlInt32 UserID)
         {
             CityDAL dalCity = new CityDAL();
-            return dalCity.SelectByStateIDUserID(StateID,UserID);
+            DataTable dtCity = new DataTable();
+            dtCity = dalCity.SelectByStateIDUserID(StateID, UserID);
+            Message = dalCity.Message;
+            return dtCity;
+           
         }
         #endregion Select Operation
 

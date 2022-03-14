@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data.SqlTypes;
+using MultiUserAddressBook.BAL;
 
 public partial class AdminPanel_ContactCategory_ContactCategoryList : System.Web.UI.Page
 {
@@ -24,59 +25,24 @@ public partial class AdminPanel_ContactCategory_ContactCategoryList : System.Web
     #region Fill GridView
     private void fillGridView()
     {
-        #region Local Variable
-        //Connection String
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion Local Variable
-        try
+        ContactCategoryBAL balContactCategory = new ContactCategoryBAL();
+        DataTable dtContactCategory = new DataTable();
+
+        dtContactCategory = balContactCategory.SelectAllByUserID(Convert.ToInt32(Session["UserID"]));
+
+        if (dtContactCategory != null && dtContactCategory.Rows.Count > 0)
         {
-            #region Connection & Command Object
-            if (objConn.State != ConnectionState.Open)
-                objConn.Open();//open connection
-
-            //Command Operation
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_ContactCategory_SelectAllByUserID";
-            if (Session["UserID"] != null)
-            {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
-            }
-            #endregion Connection & Command Object
-
-            #region Read the Value and set the controls
-            //sqlDataa reading and fetching
-            SqlDataReader objSDR = objCmd.ExecuteReader();
-
-            if (objSDR.HasRows)
-            {
-                gvContactCategory.DataSource = objSDR;
-                gvContactCategory.DataBind();
-            }
-            else
-            {
-                gvContactCategory.DataSource = objSDR;
-                gvContactCategory.DataBind();
-                lblErrMsg.Visible = true;
-                lblMsgDiv.Visible = true;
-                lblErrMsg.Text = "You Not Added Any Data. Click on Add New to Add Data in Your Table";
-            }
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close(); //close connection
-            #endregion Read the Value and set the controls
+            gvContactCategory.DataSource = dtContactCategory;
+            gvContactCategory.DataBind();
         }
-        catch (Exception exc)
+        else
         {
+            gvContactCategory.DataSource = dtContactCategory;
+            gvContactCategory.DataBind();
+
+            lblErrMsg.Text = "No data";
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblErrMsg.Text = exc.Message;
-
-        }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
         }
 
     }
@@ -89,56 +55,23 @@ public partial class AdminPanel_ContactCategory_ContactCategoryList : System.Web
         {
             if (e.CommandArgument.ToString() != "")
             {
-                DeleteRecrord(Convert.ToInt32(e.CommandArgument.ToString().Trim()));
+
+                ContactCategoryBAL balContactCategory = new ContactCategoryBAL();
+                if (balContactCategory.Delete(Convert.ToInt32(e.CommandArgument.ToString().Trim()), Convert.ToInt32(Session["UserID"])))
+                {
+                    fillGridView();
+                }
+                else
+                {
+                    lblErrMsg.Text = balContactCategory.Message;
+                    lblErrMsg.Visible = true;
+                    lblMsgDiv.Visible = true;
+                }
             }
         }
 
     }
     #endregion  gvContactCategory : RowCommand
 
-    #region Delete Record
-    protected void DeleteRecrord(SqlInt32 ContactCategoryID)
-    {
-        #region Local Variable
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString.Trim());
-        #endregion Local Variable
-        try
-        {
-            #region  Connection & Command Object
-            if (objConn.State != ConnectionState.Open)
-                objConn.Open();
-
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_ContactCategory_DeleteByPKUserID";
-            objCmd.Parameters.AddWithValue("@ContactCategoryID", ContactCategoryID.ToString());
-            if (Session["UserID"] != null)
-            {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
-            }
-            objCmd.ExecuteNonQuery();
-            #endregion  Connection & Command Object
-
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
-        }
-        catch (Exception exc)
-        {
-            lblErrMsg.Visible = true;
-            lblMsgDiv.Visible = true;
-            lblErrMsg.Text = exc.Message;
-
-        }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
-        }
-
-        fillGridView();
-    }
-    #endregion Delete Record
 
 }

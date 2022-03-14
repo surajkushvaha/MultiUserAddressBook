@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data.SqlTypes;
+using MultiUserAddressBook.BAL;
 public partial class AdminPanel_City_CityList : System.Web.UI.Page
 {
     #region Load Event
@@ -15,68 +16,42 @@ public partial class AdminPanel_City_CityList : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
-            filGriedView();
+            fillGridView();
         }
     }
     #endregion Load Event
 
     #region FillGriedView
-    private void filGriedView()
+    private void fillGridView()
     {
-        #region Local Variable
-        //Connection String
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString);
-        #endregion Local Variable
-        try
+
+        CityBAL balCity = new CityBAL();
+        DataTable dtCity = new DataTable();
+
+        dtCity = balCity.SelectAllByUserID(Convert.ToInt32(Session["UserID"]));
+
+        if (dtCity != null && dtCity.Rows.Count > 0)
         {
-            #region Connection & Command Object
-            if (objConn.State != ConnectionState.Open)
-                objConn.Open();//Open Connection
 
-            //Command Operation
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_City_SelectAllByUserID";
-            if (Session["UserID"] != null)
-            {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
-            }
-            #endregion Connection & Command Object
-
-            #region Read the Value and set the Controls
-            //Data Fetching and reading
-            SqlDataReader objSDR = objCmd.ExecuteReader();
-
-            if (objSDR.HasRows)
-            {
-                gvCity.DataSource = objSDR;
-                gvCity.DataBind();
-            }
-            else
-            {
-                gvCity.DataSource = objSDR;
-                gvCity.DataBind();
-                lblErrMsg.Visible = true;
-                lblMsgDiv.Visible = true;
-                lblErrMsg.Text = "You Not Added Any Data. Click on Add New to Add Data in Your Table";
-            }
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-            #endregion Read the Value and set the Controls
-
+            gvCity.DataSource = dtCity;
+            gvCity.DataBind();
         }
-        catch (Exception exc)
+        else
         {
+            gvCity.DataSource = dtCity;
+            gvCity.DataBind();
+
+            lblErrMsg.Text = "You Not Added Any Data. Click on Add New to Add Data in Your Table";
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
-            lblErrMsg.Text = exc.Message;
-
         }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
 
+        if (balCity.Message != null && balCity.Message != "")
+        {
+            lblErrMsg.Text = balCity.Message;
+            lblErrMsg.Visible = true;
+            lblMsgDiv.Visible = true;
+            return;
         }
     }
     #endregion FillGriedView
@@ -88,55 +63,21 @@ public partial class AdminPanel_City_CityList : System.Web.UI.Page
         {
             if (e.CommandArgument.ToString() != "")
             {
-                DeleteRecrord(Convert.ToInt32(e.CommandArgument.ToString().Trim()));
+                CityBAL balCity = new CityBAL();
+                if (balCity.Delete(Convert.ToInt32(e.CommandArgument.ToString().Trim()), Convert.ToInt32(Session["UserID"])))
+                {
+                    fillGridView();
+                }
+                else
+                {
+                    lblErrMsg.Text = balCity.Message;
+                    lblErrMsg.Visible = true;
+                    lblMsgDiv.Visible = true;
+                }
             }
         }
 
     }
     #endregion gvCity : RowCommand
 
-    #region DeleteRecord
-    protected void DeleteRecrord(SqlInt32 CityID)
-    {
-        #region Local Variable
-        SqlConnection objConn = new SqlConnection(ConfigurationManager.ConnectionStrings["AddressBookConnectionString"].ConnectionString.Trim());
-        #endregion Local Variable
-        try
-        {
-            #region Set Connection & Command Object
-            if (objConn.State != ConnectionState.Open)
-                objConn.Open();
-
-            SqlCommand objCmd = objConn.CreateCommand();
-            objCmd.CommandType = CommandType.StoredProcedure;
-            objCmd.CommandText = "PR_City_DeleteByPKUserID";
-            objCmd.Parameters.AddWithValue("@CityID", CityID.ToString());
-            if (Session["UserID"] != null)
-            {
-                objCmd.Parameters.AddWithValue("@UserID", Session["UserID"].ToString().Trim());
-            }
-            objCmd.ExecuteNonQuery();
-            #endregion Set Connection & Command Object
-
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
-        }
-        catch (Exception exc)
-        {
-            lblErrMsg.Visible = true;
-            lblMsgDiv.Visible = true;
-            lblErrMsg.Text = exc.Message;
-
-        }
-        finally
-        {
-            if (objConn.State == ConnectionState.Open)
-                objConn.Close();
-
-        }
-
-        filGriedView();
-    }
-    #endregion Delete_Record
 }
