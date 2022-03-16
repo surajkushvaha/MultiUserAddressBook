@@ -23,6 +23,11 @@
     void Session_Start(object sender, EventArgs e) 
     {
         // Code that runs when a new session is started
+        if (Session["UserID"] == null)
+        {
+            //Response.Redirect("~/AdminPanel/Default.aspx", true);
+            Response.Redirect("~/AdminPanel/Login");
+        }
 
     }
 

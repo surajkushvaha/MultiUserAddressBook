@@ -62,6 +62,7 @@ namespace MultiUserAddressBook.BAL
             ContactDAL dalContact = new ContactDAL();
             if (dalContact.Insert(entContact))
             {
+                Message = dalContact.Message ;
                 return true;
             }
             else

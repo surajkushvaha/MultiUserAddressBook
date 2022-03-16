@@ -72,7 +72,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -108,84 +108,99 @@ namespace MultiUserAddressBook.DAL
 
                         #region Read the value and set the controls
                         ContactENT entContact = new ContactENT();
-
-                        SqlDataReader objSDR = objCmd.ExecuteReader();
-
-                        if (objSDR.HasRows)
+                        ContactPhotoENT entContactPhoto = new ContactPhotoENT();
+                        using (SqlDataReader objSDR = objCmd.ExecuteReader())
                         {
-                            while (objSDR.Read())
-                            {
-                                if (!objSDR["ContactID"].Equals(DBNull.Value))
-                                {
-                                    entContact.ContactID = Convert.ToInt32(objSDR["ContactID"].ToString().Trim());
-                                }
 
-                                if (!objSDR["UserID"].Equals(DBNull.Value))
+                            if (objSDR.HasRows)
+                            {
+                                while (objSDR.Read())
                                 {
-                                    entContact.UserID = Convert.ToInt32(objSDR["UserID"].ToString().Trim());
+                                    if (!objSDR["ContactID"].Equals(DBNull.Value))
+                                    {
+                                        entContact.ContactID = Convert.ToInt32(objSDR["ContactID"].ToString().Trim());
+                                    }
+
+
+                                    if (!objSDR["CountryID"].Equals(DBNull.Value))
+                                    {
+                                        entContact.CountryID = Convert.ToInt32(objSDR["CountryID"].ToString().Trim());
+                                    }
+                                    if (!objSDR["StateID"].Equals(DBNull.Value))
+                                    {
+                                        entContact.StateID = Convert.ToInt32(objSDR["StateID"].ToString().Trim());
+                                    }
+                                    if (!objSDR["CityID"].Equals(DBNull.Value))
+                                    {
+                                        entContact.CityID = Convert.ToInt32(objSDR["CityID"].ToString().Trim());
+                                    }
+                                    if (!objSDR["ContactName"].Equals(DBNull.Value))
+                                    {
+                                        entContact.ContactName = objSDR["ContactName"].ToString().Trim();
+                                    }
+                                    if (!objSDR["ContactPhotoPath"].Equals(DBNull.Value))
+                                    {
+                                        entContactPhoto.ContactPhotoPath = objSDR["ContactPhotoPath"].ToString().Trim();
+                                    }
+                                    if (!objSDR["PhotoFileType"].Equals(DBNull.Value))
+                                    {
+                                        entContactPhoto.PhotoFileType = objSDR["PhotoFileType"].ToString().Trim();
+                                    }
+                                    if (!objSDR["PhotoFileExtension"].Equals(DBNull.Value))
+                                    {
+                                        entContactPhoto.PhotoFileExtension = objSDR["PhotoFileExtension"].ToString().Trim();
+                                    }
+                                    if (!objSDR["PhotoFileSize"].Equals(DBNull.Value))
+                                    {
+                                        entContactPhoto.PhotoFileSize = objSDR["PhotoFileSize"].ToString().Trim();
+                                    }
+                                    if (!objSDR["ContactNo"].Equals(DBNull.Value))
+                                    {
+                                        entContact.ContactNo = objSDR["ContactNo"].ToString().Trim();
+                                    }
+                                    if (!objSDR["WhatsappNo"].Equals(DBNull.Value))
+                                    {
+                                        entContact.WhatsappNo = objSDR["WhatsappNo"].ToString().Trim();
+                                    }
+
+                                    if (!objSDR["BirthDate"].Equals(DBNull.Value))
+                                    {
+                                        entContact.BirthDate = Convert.ToDateTime(objSDR["BirthDate"].ToString().Trim());
+                                    }
+                                    if (!objSDR["Email"].Equals(DBNull.Value))
+                                    {
+                                        entContact.Email = objSDR["Email"].ToString().Trim();
+                                    }
+                                    if (!objSDR["Address"].Equals(DBNull.Value))
+                                    {
+                                        entContact.Address = objSDR["Address"].ToString().Trim();
+                                    }
+                                    if (!objSDR["Age"].Equals(DBNull.Value))
+                                    {
+                                        entContact.Age = Convert.ToInt32(objSDR["Age"].ToString().Trim());
+                                    }
+                                    if (!objSDR["BloodGroup"].Equals(DBNull.Value))
+                                    {
+                                        entContact.BloodGroup = objSDR["BloodGroup"].ToString().Trim();
+                                    }
+                                    if (!objSDR["FacebookID"].Equals(DBNull.Value))
+                                    {
+                                        entContact.FacebookID = objSDR["FacebookID"].ToString().Trim();
+                                    }
+                                    if (!objSDR["LinkedINID"].Equals(DBNull.Value))
+                                    {
+                                        entContact.LinkedINID = objSDR["LinkedINID"].ToString().Trim();
+                                    }
+                                    if (!objSDR["CreationDate"].Equals(DBNull.Value))
+                                    {
+                                        entContact.CreationDate = Convert.ToDateTime(objSDR["CreationDate"].ToString().Trim());
+                                    }
+                                    if (!objSDR["ModificationDate"].Equals(DBNull.Value))
+                                    {
+                                        entContact.ModificationDate = Convert.ToDateTime(objSDR["ModificationDate"].ToString().Trim());
+                                    }
+                                    break;
                                 }
-                                if (!objSDR["CountryID"].Equals(DBNull.Value))
-                                {
-                                    entContact.CountryID = Convert.ToInt32(objSDR["CountryID"].ToString().Trim());
-                                }
-                                if (!objSDR["StateID"].Equals(DBNull.Value))
-                                {
-                                    entContact.StateID = Convert.ToInt32(objSDR["StateID"].ToString().Trim());
-                                }
-                                if (!objSDR["CityID"].Equals(DBNull.Value))
-                                {
-                                    entContact.CityID = Convert.ToInt32(objSDR["CityID"].ToString().Trim());
-                                }
-                                if (!objSDR["ContactName"].Equals(DBNull.Value))
-                                {
-                                    entContact.ContactName = objSDR["ContactName"].ToString().Trim();
-                                }
-                                if (!objSDR["ContactNo"].Equals(DBNull.Value))
-                                {
-                                    entContact.ContactNo = objSDR["ContactNo"].ToString().Trim();
-                                }
-                                if (!objSDR["WhatsappNo"].Equals(DBNull.Value))
-                                {
-                                    entContact.WhatsappNo = objSDR["WhatsappNo"].ToString().Trim();
-                                }
-                                
-                                if (!objSDR["BirthDate"].Equals(DBNull.Value))
-                                {
-                                    entContact.BirthDate = Convert.ToDateTime(objSDR["BirthDate"].ToString().Trim());
-                                }
-                                if (!objSDR["Email"].Equals(DBNull.Value))
-                                {
-                                    entContact.Email = objSDR["Email"].ToString().Trim();
-                                }
-                                if (!objSDR["Address"].Equals(DBNull.Value))
-                                {
-                                    entContact.Address = objSDR["Address"].ToString().Trim();
-                                }
-                                if (!objSDR["Age"].Equals(DBNull.Value))
-                                {
-                                    entContact.Age = Convert.ToInt32(objSDR["Age"].ToString().Trim());
-                                }
-                                if (!objSDR["BloodGroup"].Equals(DBNull.Value))
-                                {
-                                    entContact.BloodGroup = objSDR["BloodGroup"].ToString().Trim();
-                                }
-                                if (!objSDR["FacebookID"].Equals(DBNull.Value))
-                                {
-                                    entContact.FacebookID = objSDR["FacebookID"].ToString().Trim();
-                                }
-                                if (!objSDR["LinkedINID"].Equals(DBNull.Value))
-                                {
-                                    entContact.LinkedINID = objSDR["LinkedINID"].ToString().Trim();
-                                }
-                                if (!objSDR["CreationDate"].Equals(DBNull.Value))
-                                {
-                                    entContact.CreationDate = Convert.ToDateTime(objSDR["CreationDate"].ToString().Trim());
-                                }
-                                if (!objSDR["ModificationDate"].Equals(DBNull.Value))
-                                {
-                                    entContact.ModificationDate = Convert.ToDateTime(objSDR["ModificationDate"].ToString().Trim());
-                                }
-                                break;
                             }
                         }
                         return entContact;
@@ -199,7 +214,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
@@ -251,7 +266,7 @@ namespace MultiUserAddressBook.DAL
 
                         objCmd.ExecuteNonQuery();
                         entContact.ContactID = Convert.ToInt32(objCmd.Parameters["@ContactID"].Value);
-
+                        Message = entContact.ContactID.ToString().Trim();
                         return true;
 
                     }
@@ -262,7 +277,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -297,7 +312,6 @@ namespace MultiUserAddressBook.DAL
                         objCmd.Parameters.Add("@CountryID", SqlDbType.Int).Value = entContact.CountryID;
                         objCmd.Parameters.Add("@StateID", SqlDbType.Int).Value = entContact.StateID;
                         objCmd.Parameters.Add("@CityID", SqlDbType.Int).Value = entContact.CityID;
-
                         objCmd.Parameters.Add("@ContactName", SqlDbType.VarChar).Value = entContact.ContactName;
                         objCmd.Parameters.Add("@ContactNo", SqlDbType.VarChar).Value = entContact.ContactNo;
                         objCmd.Parameters.Add("@WhatsappNo", SqlDbType.VarChar).Value = entContact.WhatsappNo;
@@ -324,7 +338,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -371,7 +385,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally

@@ -38,6 +38,93 @@ namespace MultiUserAddressBook.DAL
         }
         #endregion Local Variable
 
+        #region  SelctByPKUserID
+        public ContactPhotoENT SelctByPKUserID(SqlInt32 UserID, SqlInt32 ContactID)
+        {
+            using (SqlConnection objCon = new SqlConnection(ConnectionString))
+            {
+                if (objCon.State != ConnectionState.Open)
+                    objCon.Open();
+
+                using (SqlCommand objCmd = objCon.CreateCommand())
+                {
+                    try
+                    {
+                        #region Prepare Command
+
+                        objCmd.CommandType = CommandType.StoredProcedure;
+                        objCmd.CommandText = "PR_Contact_SelectByPKUserID";
+                        objCmd.Parameters.AddWithValue("@ContactID", ContactID);
+                        objCmd.Parameters.AddWithValue("@UserID", UserID);
+                        #endregion Prepare Command
+
+                        #region Read the value and set the controls
+                        ContactPhotoENT entContactPhoto = new ContactPhotoENT();
+                        SqlDataReader objSDR = objCmd.ExecuteReader();
+
+                        if (objSDR.HasRows)
+                        {
+                            while (objSDR.Read())
+                            {
+                                if (!objSDR["ContactID"].Equals(DBNull.Value))
+                                {
+                                    entContactPhoto.ContactID = Convert.ToInt32(objSDR["ContactID"].ToString().Trim());
+                                }
+
+                               
+                               
+                                if (!objSDR["ContactPhotoPath"].Equals(DBNull.Value))
+                                {
+                                    entContactPhoto.ContactPhotoPath = objSDR["ContactPhotoPath"].ToString().Trim();
+                                }
+                                if (!objSDR["PhotoFileType"].Equals(DBNull.Value))
+                                {
+                                    entContactPhoto.PhotoFileType = objSDR["PhotoFileType"].ToString().Trim();
+                                }
+                                if (!objSDR["PhotoFileExtension"].Equals(DBNull.Value))
+                                {
+                                    entContactPhoto.PhotoFileExtension = objSDR["PhotoFileExtension"].ToString().Trim();
+                                }
+                                if (!objSDR["PhotoFileSize"].Equals(DBNull.Value))
+                                {
+                                    entContactPhoto.PhotoFileSize = objSDR["PhotoFileSize"].ToString().Trim();
+                                }
+                               
+                                if (!objSDR["CreationDate"].Equals(DBNull.Value))
+                                {
+                                    entContactPhoto.CreationDate = Convert.ToDateTime(objSDR["CreationDate"].ToString().Trim());
+                                }
+                                if (!objSDR["ModificationDate"].Equals(DBNull.Value))
+                                {
+                                    entContactPhoto.ModificationDate = Convert.ToDateTime(objSDR["ModificationDate"].ToString().Trim());
+                                }
+                                break;
+                            }
+                        }
+                        return entContactPhoto;
+                        #endregion Read the value and set the controls
+
+                    }
+                    catch (SqlException sqlex)
+                    {
+                        Message = sqlex.Message;
+                        return null;
+                    }
+                    catch (Exception ex)
+                    {
+                        Message = ex.Message;
+                        return null;
+                    }
+                    finally
+                    {
+                        if (objCon.State == ConnectionState.Open)
+                            objCon.Close();
+                    }
+                }
+            }
+        }
+        #endregion SelctByPKUserID
+
         #region Insert Operation
         public Boolean Insert(ContactPhotoENT entContactPhoto)
         {
@@ -55,7 +142,7 @@ namespace MultiUserAddressBook.DAL
                         objCmd.CommandType = CommandType.StoredProcedure;
                         objCmd.CommandText = "PR_ContactPhoto_InsertByContactIdUserID";
                         objCmd.Parameters.Add("@UserID", SqlDbType.Int).Value = entContactPhoto.UserID;
-                        objCmd.Parameters.Add("@ContactID", SqlDbType.VarChar).Value = entContactPhoto.ContactID;
+                        objCmd.Parameters.Add("@ContactID", SqlDbType.Int).Value = entContactPhoto.ContactID;
                         objCmd.Parameters.Add("@ContactPhotoPath", SqlDbType.VarChar).Value = entContactPhoto.ContactPhotoPath;
                         objCmd.Parameters.Add("@PhotoFileType", SqlDbType.VarChar).Value = entContactPhoto.PhotoFileType;
                         objCmd.Parameters.Add("@PhotoFileExtension", SqlDbType.VarChar).Value = entContactPhoto.PhotoFileExtension;
@@ -76,7 +163,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -107,7 +194,7 @@ namespace MultiUserAddressBook.DAL
                         objCmd.CommandType = CommandType.StoredProcedure;
                         objCmd.CommandText = "PR_ContactPhoto_UpdateByContactIdUserID";
                         objCmd.Parameters.Add("@UserID", SqlDbType.Int).Value = entContactPhoto.UserID;
-                        objCmd.Parameters.Add("@ContactID", SqlDbType.VarChar).Value = entContactPhoto.ContactID;
+                        objCmd.Parameters.Add("@ContactID", SqlDbType.Int).Value = entContactPhoto.ContactID;
                         objCmd.Parameters.Add("@ContactPhotoPath", SqlDbType.VarChar).Value = entContactPhoto.ContactPhotoPath;
                         objCmd.Parameters.Add("@PhotoFileType", SqlDbType.VarChar).Value = entContactPhoto.PhotoFileType;
                         objCmd.Parameters.Add("@PhotoFileExtension", SqlDbType.VarChar).Value = entContactPhoto.PhotoFileExtension;
@@ -128,7 +215,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -175,7 +262,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally

@@ -42,7 +42,10 @@ namespace MultiUserAddressBook
         public DataTable SelectForCheckBoxList(SqlInt32 UserID,SqlInt32 ContactID)
         {
             ContactWiseContactCategoryDAL dalContactWiseContactCategory = new ContactWiseContactCategoryDAL();
-            return dalContactWiseContactCategory.SelectForCheckBoxList(UserID,ContactID);
+            DataTable dtContactWiseContactCategory = new DataTable();
+            dtContactWiseContactCategory = dalContactWiseContactCategory.SelectForCheckBoxList(UserID,ContactID);
+            Message = dalContactWiseContactCategory.Message;
+            return dtContactWiseContactCategory; 
         }
         #endregion SelectForCheckBoxList
 
@@ -64,10 +67,10 @@ namespace MultiUserAddressBook
 
         #region Delete
 
-        public Boolean Delete(SqlInt32 StateID, SqlInt32 UserID)
+        public Boolean Delete(SqlInt32 ContactID, SqlInt32 UserID)
         {
             ContactWiseContactCategoryDAL dalContactWiseContactCategory = new ContactWiseContactCategoryDAL();
-            if (dalContactWiseContactCategory.Delete(StateID, UserID))
+            if (dalContactWiseContactCategory.Delete(ContactID, UserID))
             {
                 return true;
             }

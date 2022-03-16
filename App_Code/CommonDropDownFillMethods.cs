@@ -84,16 +84,41 @@ namespace MultiUserAddressBook
         #endregion fillDropdDownCityByStateID
 
         #region FillCheckBoxListForContactCategoryList
-        public static void fillCheckBoxContactCategory(CheckBoxList cbl, SqlInt32 UserID, SqlInt32 ContactID)
+        //public static void fillSelectedCheckBoxContactCategory(CheckBoxList cbl, SqlInt32 UserID)
+        //{
+        //    ContactCategoryBAL balContactCategory = new ContactCategoryBAL();
+        //    cbl.DataSource = balContactCategory.SelectAllByUserID(UserID);
+        //    cbl.DataValueField = "ContactCategoryID"; 
+        //    cbl.DataTextField = "ContactCategoryName";
+        //    cbl.DataBind();
+
+        //}
+        public static void fillSelectedCheckBoxContactCategory(CheckBoxList cbl, SqlInt32 UserID, SqlInt32 ContactID)
         {
             ContactWiseContactCategoryBAL balContactWiseContactCategory = new ContactWiseContactCategoryBAL();
-            cbl.DataSource = balContactWiseContactCategory.SelectForCheckBoxList(UserID, ContactID);
+            DataTable dt = new DataTable();
+            dt =  balContactWiseContactCategory.SelectForCheckBoxList(UserID, ContactID);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (!dr[1].Equals(DBNull.Value))
+                        cbl.Items.FindByValue(dr[1].ToString().Trim()).Selected = true;
+                }
+            }
+        }
+        public static void fillCheckBoxContactCategory(CheckBoxList cbl, SqlInt32 UserID)
+        {
+            ContactCategoryBAL balContactCategory = new ContactCategoryBAL();
+            cbl.DataSource = balContactCategory.SelectAllByUserID(UserID);
             cbl.DataValueField = "ContactCategoryID";
             cbl.DataTextField = "ContactCategoryName";
             cbl.DataBind();
 
         }
         #endregion FillCheckBoxListForContactCategoryList 
+
+
 
         #region fillDropDownEmpty
         public static void fillDropDownEmpty(DropDownList ddl , String DropDownListName)

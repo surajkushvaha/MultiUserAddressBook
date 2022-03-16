@@ -37,6 +37,17 @@ namespace MultiUserAddressBook
         }
         #endregion Local Variable
 
+        #region Select 
+        public ContactPhotoENT SelctByPKUserID(SqlInt32 UserID, SqlInt32 ContactID)
+        {
+            ContactPhotoDAL dalContactPhoto = new ContactPhotoDAL();
+            ContactPhotoENT entContactPhoto = new ContactPhotoENT();
+            entContactPhoto = dalContactPhoto.SelctByPKUserID(UserID, ContactID);
+            Message = dalContactPhoto.Message;
+            return entContactPhoto;
+          }
+        #endregion Select
+
         #region Insert
         public Boolean Insert(ContactPhotoENT entContactPhoto)
         {

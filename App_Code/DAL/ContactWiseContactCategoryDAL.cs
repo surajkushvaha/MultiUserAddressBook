@@ -41,50 +41,47 @@ namespace MultiUserAddressBook.DAL
         #region SelectForCheckBox
         public DataTable SelectForCheckBoxList(SqlInt32 UserID,SqlInt32 ContactID)
         {
-            using (SqlConnection objConn = new SqlConnection(ConnectionString))
+            using(SqlConnection objConn = new SqlConnection(ConnectionString))
             {
-                if (objConn.State != ConnectionState.Open)
-                    objConn.Open();
-
-
-                using (SqlCommand objCmd = objConn.CreateCommand())
+                objConn.Open();
+                using(SqlCommand objCmd = objConn.CreateCommand())
                 {
                     try
                     {
-                        #region Prepare Command
                         objCmd.CommandType = CommandType.StoredProcedure;
                         objCmd.CommandText = "PR_ContactWiseContactCategory_SelectForFillCheckBoxByContactIDUserID";
-                        objCmd.Parameters.AddWithValue("@UserID", UserID);
-                        objCmd.Parameters.AddWithValue("@ContactID", ContactID);
-                        #endregion Prepare Command
-
-                        #region Read Data & Set Controls
+                   
+                        objCmd.Parameters.Add("@ContactID", SqlDbType.Int).Value = ContactID;
+                        objCmd.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
                         DataTable dt = new DataTable();
+
                         using (SqlDataReader objSDR = objCmd.ExecuteReader())
                         {
                             dt.Load(objSDR);
+
                         }
                         return dt;
-                        #endregion Read Data & Set Controls
-                    }
-                    catch (SqlException sqlex)
-                    {
-                        Message = sqlex.Message;
-                        return null;
 
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return null;
                     }
                     finally
                     {
-                        if (objConn.State == ConnectionState.Open)
+                       
                             objConn.Close();
                     }
-                }
-            }
+             }
+
+           }
+               
+
+            
+                        
+                
+            
         }
         #endregion SelectForCheckBox
 
@@ -123,7 +120,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
@@ -171,7 +168,7 @@ namespace MultiUserAddressBook.DAL
                     }
                     catch (Exception ex)
                     {
-                        Message = ex.InnerException.Message;
+                        Message = ex.Message;
                         return false;
                     }
                     finally
