@@ -68,7 +68,10 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
             {
                 strErrorMsg += "- Upload file less than 5 MB <br/>";
             }
-          
+            if (fuContactPhoto.FileName == "" && imgShowImg.ImageUrl == "")
+            {
+                strErrorMsg += "please upload a file <br/>";
+            }
             bool flag = true;
             foreach (ListItem liContactCategoryID in cblContactCategoryID.Items)
             {
@@ -338,7 +341,7 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
             }
             else
             {
-                lblErrMsg.Text = "Please aadd a Photo";
+                lblErrMsg.Text = "Please add a Photo";
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
                 return;

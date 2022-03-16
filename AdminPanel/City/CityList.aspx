@@ -30,7 +30,7 @@
                                 Text="Edit" CssClass="btn btn-info btn-sm shadowCard"></asp:HyperLink>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="StateName" HeaderText="City Name" />
+                    <asp:BoundField DataField="StateName" HeaderText="State Name" />
                     <asp:BoundField DataField="CityName" HeaderText="City Name" />
                     <asp:BoundField DataField="PinCode" HeaderText="Pin Code" />
                     <asp:BoundField DataField="STDCode" HeaderText="STD Code" />
