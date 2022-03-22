@@ -36,7 +36,7 @@ arrow_back
                 <asp:RequiredFieldValidator ID="rfvDdlCountryID" runat="server" 
                     ErrorMessage="Kindly Select a Country&lt;br/&gt;" 
                 ControlToValidate="ddlCountryID" Display="Dynamic" Font-Italic="True" 
-                ForeColor="#FF5E5E" InitialValue="-1" ValidationGroup="vgState"></asp:RequiredFieldValidator>
+                ForeColor="#FF5E5E" InitialValue="0" ValidationGroup="vgState"></asp:RequiredFieldValidator>
             </div>
             
         </div>

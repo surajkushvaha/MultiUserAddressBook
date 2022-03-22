@@ -27,7 +27,7 @@ namespace MultiUserAddressBook
             ddl.DataValueField = "CountryID";
             ddl.DataTextField = "CountryName";
             ddl.DataBind();
-            ddl.Items.Insert(0, new ListItem("Select Country"));
+            ddl.Items.Insert(0, new ListItem("Select Country","0"));
 
         }
 
@@ -41,7 +41,7 @@ namespace MultiUserAddressBook
             ddl.DataValueField = "StateID";
             ddl.DataTextField = "StateName";
             ddl.DataBind();
-            ddl.Items.Insert(0, new ListItem("Select State"));
+            ddl.Items.Insert(0, new ListItem("Select State","0"));
 
         }
         #endregion FillDropDownState
@@ -54,7 +54,7 @@ namespace MultiUserAddressBook
             ddl.DataValueField = "StateID";
             ddl.DataTextField = "StateName";
             ddl.DataBind();
-            ddl.Items.Insert(0, new ListItem("Select State"));
+            ddl.Items.Insert(0, new ListItem("Select State","0"));
 
         }
         #endregion FillDropDownListStateByCountryID
@@ -67,7 +67,7 @@ namespace MultiUserAddressBook
             ddl.DataValueField = "CityID";
             ddl.DataTextField = "CityName";
             ddl.DataBind();
-            ddl.Items.Insert(0, new ListItem("Select City"));
+            ddl.Items.Insert(0, new ListItem("Select City","0"));
         }
         #endregion Fill DropDownCity
 
@@ -79,7 +79,7 @@ namespace MultiUserAddressBook
             ddl.DataValueField = "CityID";
             ddl.DataTextField = "CityName";
             ddl.DataBind();
-            ddl.Items.Insert(0, new ListItem("Select City"));
+            ddl.Items.Insert(0, new ListItem("Select City","0"));
         }        
         #endregion fillDropdDownCityByStateID
 
@@ -122,7 +122,7 @@ namespace MultiUserAddressBook
         public static void fillDropDownEmpty(DropDownList ddl , String DropDownListName)
         {
             ddl.Items.Clear();
-            ddl.Items.Insert(0,new ListItem("Select " + DropDownListName, "-1"));
+            ddl.Items.Insert(0,new ListItem("Select " + DropDownListName, "0"));
 
         }
         #endregion fillDropDownEmpty
