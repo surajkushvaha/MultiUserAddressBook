@@ -44,6 +44,8 @@ public partial class AdminPanel_City_CityList : System.Web.UI.Page
             lblErrMsg.Text = "You Not Added Any Data. Click on Add New to Add Data in Your Table";
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
 
         if (balCity.Message != null && balCity.Message != "")
@@ -51,6 +53,8 @@ public partial class AdminPanel_City_CityList : System.Web.UI.Page
             lblErrMsg.Text = balCity.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return;
         }
     }
@@ -73,6 +77,8 @@ public partial class AdminPanel_City_CityList : System.Web.UI.Page
                     lblErrMsg.Text = balCity.Message;
                     lblErrMsg.Visible = true;
                     lblMsgDiv.Visible = true;
+                    lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                 }
             }
         }

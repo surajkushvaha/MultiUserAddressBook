@@ -23,14 +23,14 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEditPage : Sys
             if ( Page.RouteData.Values["ContactCategoryID"] != null)
             {
                 lblMode.Text = "Edit Contact Category";
-                btnAdd.Text = "Edit";
+                //btnAdd.Text = "Edit";
                 fillControls(Convert.ToInt32(EncryptionDecryption.Base64Decode(Page.RouteData.Values["ContactCategoryID"].ToString().Trim())));
 
             }
             else
             {
                 lblMode.Text = "Add Contact Category";
-                btnAdd.Text = "Add";
+                //btnAdd.Text = "Add";
 
             }
         }
@@ -56,6 +56,8 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEditPage : Sys
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
             lblErrMsg.Text = strErrorMsg;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return;
         }
 
@@ -90,6 +92,8 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEditPage : Sys
                 lblErrMsg.Text = balContactCategory.Message;
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             }
         }
         else
@@ -101,12 +105,16 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEditPage : Sys
                 lblErrMsg.Text = "Data Inserted Successfully";
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-success";
+
             }
             else
             {
                 lblErrMsg.Text = balContactCategory.Message;
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             }
         }
     }
@@ -137,6 +145,8 @@ public partial class AdminPanel_ContactCategory_ContactCategoryAddEditPage : Sys
             lblErrMsg.Text = balContactCategory.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
 
     }

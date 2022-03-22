@@ -43,6 +43,8 @@ public partial class AdminPanel_ContactCategory_ContactCategoryList : System.Web
             lblErrMsg.Text = "No data";
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
 
     }
@@ -66,6 +68,8 @@ public partial class AdminPanel_ContactCategory_ContactCategoryList : System.Web
                     lblErrMsg.Text = balContactCategory.Message;
                     lblErrMsg.Visible = true;
                     lblMsgDiv.Visible = true;
+                    lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                 }
             }
         }

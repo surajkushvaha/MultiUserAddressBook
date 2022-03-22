@@ -46,6 +46,8 @@ public partial class SignUp : System.Web.UI.Page
            lblErrMsg.Text =  strErrorMsg;
            lblErrMsg.Visible =true;
            lblMsgDiv.Visible=true;
+           lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
            return;
        }
         #endregion Server Side validation
@@ -95,6 +97,8 @@ public partial class SignUp : System.Web.UI.Page
             lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
         #endregion insert
     }
@@ -113,6 +117,8 @@ public partial class SignUp : System.Web.UI.Page
             lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return false;
         }
         

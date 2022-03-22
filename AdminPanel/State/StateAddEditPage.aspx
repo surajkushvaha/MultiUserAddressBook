@@ -17,7 +17,7 @@ arrow_back
         </div>
 
 
-        <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-info ">
+        <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
             <asp:Label ID="lblStateMsg" runat="server"
                 EnableViewState="False" Visible="False"></asp:Label>
             <asp:Label ID="lblErrMsg" runat="server"
@@ -26,6 +26,8 @@ arrow_back
 
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblCountryName" runat="server" Text="Country Name" CssClass="text-dark"></asp:Label>
                 
             </div>
@@ -41,6 +43,8 @@ arrow_back
 
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblStateName" runat="server" Text="State Name" CssClass="text-dark"></asp:Label>
             </div>
             <div class="col-md-4">
@@ -55,6 +59,8 @@ arrow_back
 
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblStateCode" runat="server" Text="State Code" CssClass="text-dark"></asp:Label>
             </div>
             <div class="col-md-4">
@@ -72,7 +78,7 @@ arrow_back
         </div>
         <div class="row p-2 my-4 justify-content-center">
 
-            <asp:Button ID="btnAdd" runat="server" Text="Add" CssClass="btn btn-info shadowCard" OnClick="btnAdd_Click" ValidationGroup="vgState" />
+            <asp:Button ID="btnAdd" runat="server" Text="Save" CssClass="btn btn-info shadowCard" OnClick="btnAdd_Click" ValidationGroup="vgState" />
         </div>
     </section>
 </asp:Content>

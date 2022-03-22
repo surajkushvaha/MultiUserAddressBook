@@ -76,6 +76,8 @@ public partial class AdminPanel_User_UserEditPage : System.Web.UI.Page
             lblMsgDiv.Visible = true;
             lblErrMsg.Visible = true;
             lblErrMsg.Text = strErrMsg;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return;
         }
        
@@ -114,6 +116,8 @@ public partial class AdminPanel_User_UserEditPage : System.Web.UI.Page
             lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
         #endregion Update   
     }
@@ -152,6 +156,8 @@ public partial class AdminPanel_User_UserEditPage : System.Web.UI.Page
             lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return;
         }          
 
@@ -171,6 +177,8 @@ public partial class AdminPanel_User_UserEditPage : System.Web.UI.Page
             lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return false;
         }
     }

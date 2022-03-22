@@ -45,6 +45,8 @@ public partial class AdminPanel_Contact_ContactList : System.Web.UI.Page
             lblErrMsg.Text = "No data";
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
 
     }
@@ -84,6 +86,8 @@ public partial class AdminPanel_Contact_ContactList : System.Web.UI.Page
                         lblErrMsg.Text = balContactWiseContactCategory.Message;
                         lblErrMsg.Visible = true;
                         lblMsgDiv.Visible = true;
+                        lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
 
                     }
                 }
@@ -92,6 +96,8 @@ public partial class AdminPanel_Contact_ContactList : System.Web.UI.Page
                     lblErrMsg.Text = balContactPhoto.Message;
                     lblErrMsg.Visible = true;
                     lblMsgDiv.Visible = true;
+                    lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                 }
             }
         }
@@ -118,6 +124,8 @@ public partial class AdminPanel_Contact_ContactList : System.Web.UI.Page
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
                 lblErrMsg.Text = "Something went wrong or Wrong URL";
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             }
         
 

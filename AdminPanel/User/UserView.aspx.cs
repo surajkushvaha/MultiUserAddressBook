@@ -91,6 +91,8 @@ public partial class AdminPanel_User_UserView : System.Web.UI.Page
             lblErrMsg.Text = balUser.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return;
         }           
     }
@@ -111,6 +113,8 @@ public partial class AdminPanel_User_UserView : System.Web.UI.Page
                     lblErrMsg.Text = balUser.Message;
                     lblErrMsg.Visible = true;
                     lblMsgDiv.Visible = true;
+                    lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                 }
             }
     }

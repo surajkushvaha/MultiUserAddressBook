@@ -5,11 +5,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMainContent" runat="Server">
     <div class="container w-50 card shadowCard" style="background-color: rgba(0, 0, 254, 0.30)">
-        <div id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
+        <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
             <asp:Label ID="lblErrMsg" runat="server"
                 EnableViewState="False" Visible="False"></asp:Label>
 
-        </div>
+        </asp:Panel>
 
         <h2 class="text-center mt-2">Your Profile</h2>
         <div class="row my-4">
@@ -48,7 +48,7 @@
             <asp:HyperLink ID="hlEdit" runat="server" CssClass="form-control btn btn-success text-light shadowCard mx-1"
                 Text="Edit" NavigateUrl="~/AdminPanel/Profile/Edit" />
             <asp:Button ID="btnDelete" runat="server" CssClass="form-control btn btn-danger text-light shadowCard mx-1"
-                Text="Delete Account" OnClick="btnDelete_Click" />
+                Text="Delete Account" OnClientClick="javascript : return confirm('Are you sure you want to delete?')"  OnClick="btnDelete_Click" />
         </div>
         
     </div>

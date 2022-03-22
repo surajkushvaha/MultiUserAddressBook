@@ -20,7 +20,7 @@
         </div>
 
 
-        <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-info ">
+        <asp:Panel ID="lblMsgDiv" runat="server" Visible="false" class="w-100 my-2 alert alert-danger">
             <asp:Label ID="lblContactMsg" runat="server"
                 EnableViewState="False" Visible="False"></asp:Label>
             <asp:Label ID="lblErrMsg" runat="server"
@@ -28,8 +28,13 @@
         </asp:Panel>
 
         <div class="row p-2 justify-content-center">
+
             <div class="col-md-4 align-self-center">
+                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblCountryName" runat="server" Text="Country Name" CssClass="text-dark"></asp:Label>
+
+
             </div>
             <div class="col-md-4">
                 <asp:DropDownList ID="ddlCountryID" runat="server" CssClass="form-control" AutoPostBack="true"
@@ -38,13 +43,17 @@
                 <asp:RequiredFieldValidator ID="rfvCountryName" runat="server"
                     ControlToValidate="ddlCountryID" Display="Dynamic"
                     ErrorMessage="Select a Country" Font-Italic="True" ForeColor="#FF5E5E"
-                    InitialValue="-1" ValidationGroup="vgContact"></asp:RequiredFieldValidator>
+                    InitialValue="0" ValidationGroup="vgContact"></asp:RequiredFieldValidator>
             </div>
         </div>
 
         <div class="row p-2 justify-content-center">
+
             <div class="col-md-4 align-self-center">
+                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblState" runat="server" Text="State Name" CssClass="text-dark"></asp:Label>
+
             </div>
             <div class="col-md-4">
                 <asp:DropDownList ID="ddlStateID" runat="server" CssClass="form-control" AutoPostBack="true"
@@ -52,20 +61,23 @@
                 </asp:DropDownList>
                 <asp:RequiredFieldValidator ID="rfvStateName" runat="server"
                     ControlToValidate="ddlStateID" Display="Dynamic" ErrorMessage="Select a State"
-                    Font-Italic="True" ForeColor="#FF5E5E" InitialValue="-1"
+                    Font-Italic="True" ForeColor="#FF5E5E" InitialValue="0"
                     ValidationGroup="vgContact"></asp:RequiredFieldValidator>
             </div>
         </div>
 
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblCity" runat="server" Text="City Name" CssClass="text-dark"></asp:Label>
+
             </div>
             <div class="col-md-4">
                 <asp:DropDownList ID="ddlCityID" runat="server" CssClass="form-control"></asp:DropDownList>
                 <asp:RequiredFieldValidator ID="rfvvCityName" runat="server"
-                    ControlToValidate="ddlCItyID" Display="Dynamic" ErrorMessage="Select a City"
-                    Font-Italic="True" ForeColor="#FF5E5E" InitialValue="-1"
+                    ControlToValidate="ddlCityID" Display="Dynamic" ErrorMessage="Select a City"
+                    Font-Italic="True" ForeColor="#FF5E5E" InitialValue="0"
                     ValidationGroup="vgContact"></asp:RequiredFieldValidator>
             </div>
         </div>
@@ -84,21 +96,28 @@
             </div>
         </div>--%>
 
-         <div class="row p-2 justify-content-center">
+        <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
-                <asp:Label ID="lblContactCategoryName" runat="server" Text="Contact Category Name" CssClass="text-dark"></asp:Label>
+                <sup class="text-danger font-weight-bold">*</sup>
+
+                <asp:Label ID="lblContactCategoryName" runat="server" Text="Contact Category Name"
+                    CssClass="text-dark"></asp:Label>
+
             </div>
             <div class="col-md-4">
-                <asp:CheckBoxList ID="cblContactCategoryID" runat="server">
+                <asp:CheckBoxList ID="cblContactCategoryID" runat="server" RepeatDirection="Horizontal" RepeatLayout="Table" RepeatColumns="3" CellPadding="5" CellSpacing="5">
                 </asp:CheckBoxList>
-               <%-- <asp:RequiredFieldValidator ID="rfvContactCategoryID" runat="server"
+                <%-- <asp:RequiredFieldValidator ID="rfvContactCategoryID" runat="server"
                     ControlToValidate="cblContactCategoryID" Display="Dynamic"
                     ErrorMessage="Select a Contact Category" Font-Italic="True" ForeColor="#FF5E5E" InitialValue="-1" ValidationGroup="vgContact"></asp:RequiredFieldValidator>--%>
             </div>
         </div>
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblContactName" runat="server" Text="Contact Name" CssClass="text-dark"></asp:Label>
+
             </div>
             <div class="col-md-4">
                 <asp:TextBox ID="txtContactName" CssClass="form-control" runat="server"></asp:TextBox>
@@ -112,7 +131,10 @@
 
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblContactPhoto" runat="server" Text="Contact Photo" CssClass="text-dark"></asp:Label>
+
             </div>
             <div class="col-md-4">
 
@@ -145,7 +167,10 @@
         </div>
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblContactNo" runat="server" Text="Contact No" CssClass="text-dark"></asp:Label>
+
             </div>
             <div class="col-md-4">
                 <asp:TextBox ID="txtContactNo" CssClass="form-control" runat="server"></asp:TextBox>
@@ -187,7 +212,10 @@
         </div>
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblEmail" runat="server" Text="Email ID" CssClass="text-dark"></asp:Label>
+
             </div>
             <div class="col-md-4">
                 <asp:TextBox ID="txtEmail" type="email" CssClass="form-control" runat="server"></asp:TextBox>
@@ -215,7 +243,10 @@
         </div>
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblAddress" runat="server" Text="Address" CssClass="text-dark"></asp:Label>
+
             </div>
             <div class="col-md-4">
                 <asp:TextBox ID="txtAddress" TextMode="MultiLine" CssClass="form-control" runat="server"></asp:TextBox>
@@ -264,7 +295,7 @@
 
         <div class="row p-2 my-4 justify-content-center">
 
-            <asp:Button ID="btnAdd" runat="server" Text="Add" CssClass="btn btn-info shadowCard"
+            <asp:Button ID="btnAdd" runat="server" Text="Save" CssClass="btn btn-info shadowCard"
                 OnClick="btnAdd_Click" ValidationGroup="vgContact" />
         </div>
     </section>

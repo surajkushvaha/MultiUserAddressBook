@@ -22,13 +22,13 @@ public partial class AdminPanel_Country_CountryAddEditPage : System.Web.UI.Page
             if (Page.RouteData.Values["CountryID"] != null)
             {
                 lblMode.Text = "Edit Country";
-                btnAdd.Text = "Edit";
+                //btnAdd.Text = "Edit";
                 fillControls(Convert.ToInt32(EncryptionDecryption.Base64Decode( Page.RouteData.Values["CountryID"].ToString().Trim())));
             }
             else
             {
                 lblMode.Text = "Add Country";
-                btnAdd.Text = "Add";
+                //btnAdd.Text = "Add";
             }
         }
     }
@@ -59,11 +59,14 @@ public partial class AdminPanel_Country_CountryAddEditPage : System.Web.UI.Page
             lblCountryMsg.Visible = true;
             lblMsgDiv.Visible = true;
             lblCountryMsg.Text = strErrorMsg;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return;
         }
        
         #endregion Server side validation
 
+        #region gather information
         CountryENT entCountry = new CountryENT();
         if (txtCountryName.Text != "")
         {
@@ -81,7 +84,8 @@ public partial class AdminPanel_Country_CountryAddEditPage : System.Web.UI.Page
             entCountry.UserID = Convert.ToInt32(Session["UserID"]);
         }
 
-        
+        #endregion gather information
+
         CountryBAL balCountry = new CountryBAL();
 
         if (Page.RouteData.Values["CountryID"] != null)
@@ -98,6 +102,7 @@ public partial class AdminPanel_Country_CountryAddEditPage : System.Web.UI.Page
                 lblErrMsg.Text = balCountry.Message;
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
 
             }
         }
@@ -110,12 +115,16 @@ public partial class AdminPanel_Country_CountryAddEditPage : System.Web.UI.Page
                 lblErrMsg.Text = "Data Inserted Successfully";
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-success";
+
             }
             else
             {
                 lblErrMsg.Text = balCountry.Message;
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             }
         }
             
@@ -156,6 +165,8 @@ public partial class AdminPanel_Country_CountryAddEditPage : System.Web.UI.Page
             lblErrMsg.Text = balCountry.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
 
     }

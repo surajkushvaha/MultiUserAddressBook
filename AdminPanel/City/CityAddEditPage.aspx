@@ -17,7 +17,7 @@ arrow_back
 
             </h2>
         </div>
-        <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-info ">
+        <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
             <asp:Label ID="lblCityMsg" runat="server" 
              EnableViewState="False" Visible="False"></asp:Label>
             <asp:Label ID="lblErrMsg" runat="server"
@@ -26,18 +26,22 @@ arrow_back
         
          <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblStateName" runat="server" Text="State Name" CssClass="text-dark"></asp:Label>
             </div>
             <div class="col-md-4">
                 <asp:DropDownList ID="ddlStateID" runat="server" CssClass="form-control"></asp:DropDownList>
                 <asp:RequiredFieldValidator ID="rfvDdlStateID" runat="server" 
                     ControlToValidate="ddlStateID" ErrorMessage="Please Select a State" 
-                    Font-Italic="True" ForeColor="#FF5E5E" InitialValue="-1" 
+                    Font-Italic="True" ForeColor="#FF5E5E" InitialValue="0" 
                     ValidationGroup="vgCity"></asp:RequiredFieldValidator>
             </div>
         </div>
         <div class="row p-2 justify-content-center">
             <div class="col-md-4 align-self-center">
+                                <sup class="text-danger font-weight-bold">*</sup>
+
                 <asp:Label ID="lblCityName" runat="server" Text="City Name" CssClass="text-dark"></asp:Label>
             </div>
             <div class="col-md-4">
@@ -72,7 +76,7 @@ arrow_back
         </div>
         <div class="row p-2 my-4 justify-content-center">
 
-            <asp:Button ID="btnAdd" runat="server" Text="Add" CssClass="btn btn-info shadowCard"
+            <asp:Button ID="btnAdd" runat="server" Text="Save" CssClass="btn btn-info shadowCard"
                 OnClick="btnAdd_Click" ValidationGroup="vgCity" />
         </div>
     </section>

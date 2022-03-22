@@ -24,13 +24,13 @@ public partial class AdminPanel_State_StateAddEditPage : System.Web.UI.Page
             if (Page.RouteData.Values["StateID"] != null)
             {
                 lblMode.Text = "Edit State";
-                btnAdd.Text = "Edit";
+                //btnAdd.Text = "Edit";
                 fillControls(Convert.ToInt32(MultiUserAddressBook.EncryptionDecryption.Base64Decode(Page.RouteData.Values["StateID"].ToString().Trim())));
             }
             else
             {
                 lblMode.Text = "Add State";
-                btnAdd.Text = "Add";
+                //btnAdd.Text = "Add";
 
             }
         }
@@ -62,6 +62,8 @@ public partial class AdminPanel_State_StateAddEditPage : System.Web.UI.Page
             lblStateMsg.Visible = true;
             lblMsgDiv.Visible = true;
             lblStateMsg.Text = strErrorMsg;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return;
         }
         #endregion Server Side Validation
@@ -95,6 +97,7 @@ public partial class AdminPanel_State_StateAddEditPage : System.Web.UI.Page
             if (balState.Update(entState))
             {
                 ClearField();
+
                 Response.Redirect("~/AdminPanel/State/StateList.aspx");
             }
             else
@@ -102,6 +105,7 @@ public partial class AdminPanel_State_StateAddEditPage : System.Web.UI.Page
                 lblErrMsg.Text = balState.Message;
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
 
             }
         }
@@ -114,12 +118,15 @@ public partial class AdminPanel_State_StateAddEditPage : System.Web.UI.Page
                 lblErrMsg.Text = "Data Inserted Successfully";
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-success";
             }
             else
             {
                 lblErrMsg.Text = balState.Message;
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             }
         }
    
@@ -173,6 +180,8 @@ public partial class AdminPanel_State_StateAddEditPage : System.Web.UI.Page
             lblErrMsg.Text = balState.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
     }
     #endregion FillControl

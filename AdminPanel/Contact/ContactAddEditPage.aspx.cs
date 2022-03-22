@@ -26,7 +26,7 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
             if (Page.RouteData.Values["ContactID"] != null)
             {
                 lblMode.Text = "Edit Contact";
-                btnAdd.Text = "Edit";
+                //btnAdd.Text = "Edit";
 
                 fillControls(Convert.ToInt32(EncryptionDecryption.Base64Decode(Page.RouteData.Values["ContactID"].ToString().Trim())));
 
@@ -34,7 +34,9 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
             else
             {
                 lblMode.Text = "Add Contact";
-                btnAdd.Text = "Add";
+                CommonDropDownFillMethods.fillDropDownEmpty(ddlStateID, "State");
+                CommonDropDownFillMethods.fillDropDownEmpty(ddlCityID, "City");
+                //btnAdd.Text = "Add";
 
             }
 
@@ -106,6 +108,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
                 lblContactMsg.Visible = true;
                 lblMsgDiv.Visible = true;
                 lblContactMsg.Text = strErrorMsg;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                 return;
             }
             #endregion Server side validation
@@ -195,6 +199,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
                     lblErrMsg.Text =  balContact.Message;
                     lblErrMsg.Visible = true;
                     lblMsgDiv.Visible = true;
+                    lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                 }
                 #endregion Update Record
             }
@@ -209,6 +215,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
                     InsertContactWiseContactCategory(entContact.ContactID);
                     lblContactMsg.Visible = true;
                     lblMsgDiv.Visible = true;
+                    lblMsgDiv.CssClass = "w-100 my-2 alert alert-success";
+
                     lblContactMsg.Text = "Data Inserted Successfully";
                     ClearField();
                 }
@@ -217,6 +225,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
                     lblErrMsg.Text = balContact.Message;
                     lblMsgDiv.Visible = true;
                     lblErrMsg.Visible = true;
+                    lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                 }
 
                 #endregion Insert Record
@@ -320,6 +330,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
                         lblErrMsg.Text = balContactPhoto.Message;
                         lblErrMsg.Visible = true;
                         lblMsgDiv.Visible = true;
+                        lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                         return;
                     }
                 }
@@ -335,6 +347,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
                         lblErrMsg.Text = balContactPhoto.Message;
                         lblErrMsg.Visible = true;
                         lblMsgDiv.Visible = true;
+                        lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                         return;
                     }
                 }
@@ -344,6 +358,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
                 lblErrMsg.Text = "Please add a Photo";
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                 return;
             }
 
@@ -482,6 +498,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
             lblErrMsg.Text = balContact.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
 
         CommonDropDownFillMethods.fillSelectedCheckBoxContactCategory(cblContactCategoryID,Convert.ToInt32(Session["UserID"]),entContact.ContactID);
@@ -513,6 +531,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
                     lblErrMsg.Text = balContactWiseCategory.Message;
                     lblErrMsg.Visible = true;
                     lblMsgDiv.Visible = true;
+                    lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
                 }
                 foreach (ListItem li in cblContactCategoryID.Items)
                 {
@@ -539,6 +559,8 @@ public partial class AdminPanel_Contact_ContactAddEditPage : System.Web.UI.Page{
             lblErrMsg.Text = balContactWiseCategory.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
     }
     #endregion DeleteContactWiseContactCategory

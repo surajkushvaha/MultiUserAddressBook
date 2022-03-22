@@ -9,17 +9,17 @@
             <h3 class="">Contact Category List</h3>
             <asp:HyperLink runat="server" ID="add" NavigateUrl="~/AdminPanel/ContactCategory/Add"><span class="btn btn-success shadowCard">Add New</span></asp:HyperLink>
         </div>
-         <div id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
+         <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
             <asp:Label ID="lblErrMsg" runat="server"
                 EnableViewState="False" Visible="False"></asp:Label>
-        </div>
+        </asp:Panel>
         <div class="text-left table-responsive">
             <asp:GridView ID="gvContactCategory" runat="server" OnRowCommand="gvContactCategory_RowCommand">
                 <Columns>
                     <asp:TemplateField HeaderText="Delete">
                         <ItemTemplate>
                             <asp:Button runat="server" ID="btnDelete" Text="Delete" CssClass="btn btn-danger btn-sm shadowCard"
-                                CommandName="deleteRecord" CommandArgument='<%# Eval("ContactCategoryID").ToString() %>' />
+                                CommandName="deleteRecord" OnClientClick="javascript : return confirm('Are you sure you want to delete?')" CommandArgument='<%# Eval("ContactCategoryID").ToString() %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
 

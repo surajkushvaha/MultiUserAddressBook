@@ -14,10 +14,10 @@
 
             </h2>
         </div>
-        <div id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
+        <asp:Panel id="lblMsgDiv" runat="server" visible="false" class="w-100 my-2 alert alert-danger ">
             <asp:Label ID="lblErrMsg" runat="server"
                 EnableViewState="False" Visible="False"></asp:Label>
-        </div>
+        </asp:Panel>
         <div class="d-flex flex-column mt-4 mb-2">
             <asp:Label ID="lblUserName" CssClass="font-weight-bold" runat="server" Text="Username"></asp:Label>
             <asp:TextBox ID="txtUserName" CssClass="form-control" runat="server" pattern="^[a-z0-9_]*$"></asp:TextBox>

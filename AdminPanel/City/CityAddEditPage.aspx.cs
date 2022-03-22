@@ -25,14 +25,14 @@ public partial class AdminPanel_City_CityAddEditPage : System.Web.UI.Page
             if (Page.RouteData.Values["CityID"] != null)
             {
                 lblMode.Text = "Edit City";
-                btnAdd.Text = "Edit";
+                //btnAdd.Text = "Edit";
                 fillControls(Convert.ToInt32(EncryptionDecryption.Base64Decode(Page.RouteData.Values["CityID"].ToString().Trim())));
 
             }
             else
             {
                 lblMode.Text = "Add City";
-                btnAdd.Text = "Add";
+                //btnAdd.Text = "Add";
 
             }
         }
@@ -63,6 +63,8 @@ public partial class AdminPanel_City_CityAddEditPage : System.Web.UI.Page
             lblCityMsg.Visible = true;
             lblMsgDiv.Visible = true;
             lblCityMsg.Text = strErrorMsg;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             return;
         }
         #endregion Server Side Validation
@@ -109,6 +111,7 @@ public partial class AdminPanel_City_CityAddEditPage : System.Web.UI.Page
                 lblErrMsg.Text = balCity.Message;
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
 
             }
         }
@@ -121,12 +124,16 @@ public partial class AdminPanel_City_CityAddEditPage : System.Web.UI.Page
                 lblErrMsg.Text = "Data Inserted Successfully";
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-success";
+
             }
             else
             {
                 lblErrMsg.Text = balCity.Message;
                 lblErrMsg.Visible = true;
                 lblMsgDiv.Visible = true;
+                lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
             }
         }
             
@@ -142,6 +149,7 @@ public partial class AdminPanel_City_CityAddEditPage : System.Web.UI.Page
         CommonDropDownFillMethods.fillDropDownState(ddlStateID,Convert.ToInt32( Session["UserID"]));
     }
     #endregion Fill DropDown
+
     #region Clear Form
     private void ClearField()
     {
@@ -153,6 +161,7 @@ public partial class AdminPanel_City_CityAddEditPage : System.Web.UI.Page
         ddlStateID.Focus();
     }
     #endregion Clear Form
+
     #region Fill Controls
 
     private void fillControls(SqlInt32 CityID)
@@ -174,6 +183,8 @@ public partial class AdminPanel_City_CityAddEditPage : System.Web.UI.Page
             lblErrMsg.Text = balCity.Message;
             lblErrMsg.Visible = true;
             lblMsgDiv.Visible = true;
+            lblMsgDiv.CssClass = "w-100 my-2 alert alert-danger";
+
         }
 
     }

@@ -118,13 +118,11 @@ namespace MultiUserAddressBook
         }
         #endregion FillCheckBoxListForContactCategoryList 
 
-
-
         #region fillDropDownEmpty
         public static void fillDropDownEmpty(DropDownList ddl , String DropDownListName)
         {
             ddl.Items.Clear();
-            ddl.Items.Insert(0,new ListItem("Select" + DropDownListName, "-1"));
+            ddl.Items.Insert(0,new ListItem("Select " + DropDownListName, "-1"));
 
         }
         #endregion fillDropDownEmpty
