@@ -43,9 +43,9 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Image Attributes" ControlStyle-Width="200px">
                         <ItemTemplate >
-                            <asp:Label runat="server" Text='<%# "Image Type :" +  Eval("PhotoFileType").ToString().Trim() %>' /><br />
-                            <asp:Label runat="server" Text='<%# "Image Extension :" + Eval("PhotoFileExtension") %>' /><br />
-                            <asp:Label runat="server" Text='<%# "Image Size :" + Eval("PhotoFileSize") %>' />
+                            <asp:Label runat="server" Text='<%# "Image Type : " +  Eval("PhotoFileType").ToString().Trim() %>' /><br />
+                            <asp:Label runat="server" Text='<%# "Image Extension : " + Eval("PhotoFileExtension") %>' /><br />
+                            <asp:Label runat="server" Text='<%# "Image Size : " + Eval("PhotoFileSize") %>' />
 
                         </ItemTemplate>
                     </asp:TemplateField>
@@ -60,8 +60,8 @@
                     <asp:BoundField DataField="BloodGroup" HeaderText="Blood Group" />
                     <asp:BoundField DataField="FacebookID" HeaderText="Facebook ID" />
                     <asp:BoundField DataField="LinkedINID" HeaderText="Linkedin ID" />
-                    <asp:BoundField DataField="CreationDate" HeaderText="Created on" />
-                    <asp:BoundField DataField="ModificationDate" HeaderText="Last  Modified on" />
+                    <%--<asp:BoundField DataField="CreationDate" HeaderText="Created on" />
+                    <asp:BoundField DataField="ModificationDate" HeaderText="Last  Modified on" />--%>
                 </Columns>
             </asp:GridView>
         </div>

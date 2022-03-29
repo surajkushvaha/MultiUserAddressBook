@@ -34,8 +34,8 @@
                     <asp:BoundField DataField="CityName" HeaderText="City Name" />
                     <asp:BoundField DataField="PinCode" HeaderText="Pin Code" />
                     <asp:BoundField DataField="STDCode" HeaderText="STD Code" />
-                     <asp:BoundField DataField="CreationDate" HeaderText="Created on" />
-                     <asp:BoundField DataField="ModificationDate" HeaderText="Last  Modified on" />
+                    <%-- <asp:BoundField DataField="CreationDate" HeaderText="Created on" />
+                     <asp:BoundField DataField="ModificationDate" HeaderText="Last  Modified on" />--%>
                 </Columns>
             </asp:GridView>
         </div>

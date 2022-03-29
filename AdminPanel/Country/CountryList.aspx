@@ -32,8 +32,8 @@
                     </asp:TemplateField>
                     <asp:BoundField DataField="CountryName" HeaderText="Country Name" />
                     <asp:BoundField DataField="CountryCode" HeaderText="Country Code" />
-                    <asp:BoundField DataField="CreationDate" HeaderText="Created on" />
-                     <asp:BoundField DataField="ModificationDate" HeaderText="Last  Modified on" />
+                    <%--<asp:BoundField DataField="CreationDate" HeaderText="Created on" />
+                     <asp:BoundField DataField="ModificationDate" HeaderText="Last  Modified on" />--%>
                 </Columns>
             </asp:GridView>
         </div>
